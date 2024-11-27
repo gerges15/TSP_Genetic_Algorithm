@@ -28,8 +28,3 @@ class City:
 
     def square(self, num):
         return num**2
-
-
-city1 = City(4, 5)
-city2 = City(1, 9)
-print(city1.distance(city2))
