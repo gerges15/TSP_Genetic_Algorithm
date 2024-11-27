@@ -12,7 +12,6 @@ class Fitness:
 
     def zx_route_distance(self):
         self.distance = self.path_distance if self.distance == 0 else self.distance
-
         return self.distance
 
     @property
@@ -34,7 +33,7 @@ class Fitness:
 
     def route_fitness(self):
         if self.fitness == 0:
-            self.fitness = 1 / float(self.route_distance())
+            self.fitness = 1 / float(self.zx_route_distance())
         return self.fitness
 
 
@@ -45,5 +44,5 @@ city4 = City(3, 1)
 
 fitt = Fitness([city1, city2, city3, city4])
 
-print(fitt.route_distance())
+print(fitt.zx_route_distance())
 print(fitt.route_fitness())
