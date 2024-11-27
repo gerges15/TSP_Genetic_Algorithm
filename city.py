@@ -7,7 +7,7 @@ class City:
         self._y_point = y
 
     def distance(self, city):
-        y_difference = abs(self.get_y - city.get_y)
+        y_difference = self.y_difference(city)
         result = np.sqrt(
             (self.square(self.x_difference(city))) + (self.square(y_difference))
         )
@@ -15,6 +15,9 @@ class City:
 
     def x_difference(self, city):
         return abs(self.get_x - city.get_x)
+
+    def y_difference(self, city):
+        return abs(self.get_y - city.get_y)
 
     @property
     def get_x(self):
