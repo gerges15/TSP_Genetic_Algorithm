@@ -7,9 +7,6 @@ class Fitness:
         self.distance = 0
         self.fitness = 0.0
 
-    def route_distance(self):
-        return self.zx_route_distance()
-
     def zx_route_distance(self):
         self.distance = self.path_distance if self.distance == 0 else self.distance
         return self.distance
