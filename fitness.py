@@ -13,7 +13,7 @@ class Fitness:
     def zz_route_distance(self):
         if self.distance == 0:
             path_distance = self.path_distance
-            self.distance = path_distance
+            self.distance = self.path_distance
         return self.distance
 
     @property
