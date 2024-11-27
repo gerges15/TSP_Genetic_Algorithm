@@ -13,8 +13,7 @@ class Fitness:
     def zz_route_distance(self):
         if self.distance == 0:
             path_distance = 0
-            for i, city in enumerate(self.route):
-                from_city = city
+            for i, from_city in enumerate(self.route):
                 next_index = i + 1
                 to_city = self.next_city(next_index, self.route)
                 path_distance += from_city.distance(to_city)
