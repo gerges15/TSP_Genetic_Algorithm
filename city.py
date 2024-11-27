@@ -8,7 +8,8 @@ class City:
 
     def distance(self, city):
         x_difference = abs(self.get_x - city.get_x)
-        y_distance = abs(self.get_y - city.get_y)
+        y_difference = abs(self.get_y - city.get_y)
+        y_distance = y_difference
         result = np.sqrt((x_difference**2) + (y_distance**2))
         return result
 
