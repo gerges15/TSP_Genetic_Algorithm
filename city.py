@@ -1,5 +1,4 @@
 import numpy as np
-import math
 
 
 class City:
@@ -10,7 +9,7 @@ class City:
     def distance(self, city):
         x_difference = abs(self.get_x - city.get_x)
         y_difference = abs(self.get_y - city.get_y)
-        result = np.sqrt((self.square(x_difference)) + (y_difference**2))
+        result = np.sqrt((self.square(x_difference)) + (self.square(y_difference)))
         return result
 
     @property
@@ -23,9 +22,3 @@ class City:
 
     def square(self, num):
         return num**2
-
-
-cit = City(4, 5)
-cit2 = City(1, 9)
-
-print(cit.distance(cit2))
