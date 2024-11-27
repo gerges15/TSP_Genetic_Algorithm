@@ -22,7 +22,7 @@ class City:
         return self._y_coordinate
 
     def square(self, num):
-        return math.pow(num, 2)
+        return num**2
 
 
 cit = City(4, 5)
