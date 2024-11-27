@@ -23,7 +23,6 @@ class Fitness:
             next_index = i + 1
             to_city = self.next_city(next_index, self.route)
             result += from_city.distance(to_city)
-        self.distance = result
         return result
 
     def next_city(self, next_index, route):
