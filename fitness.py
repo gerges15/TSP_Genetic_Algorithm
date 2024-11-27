@@ -16,9 +16,10 @@ class Fitness:
             for i, city in enumerate(self.route):
                 from_city = city
                 to_city = None
-                if i + 1 < len(self.route):
+                next_index = i + 1
+                if next_index < len(self.route):
                     to_city = self.route[i + 1]
-                else:
+                if next_index == len(self.route):
                     to_city = self.route[0]
                 path_distance += from_city.distance(to_city)
             self.distance = path_distance
