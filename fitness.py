@@ -12,13 +12,19 @@ class Fitness:
 
     def zz_route_distance(self):
         if self.distance == 0:
-            path_distance = 0
-            for i, from_city in enumerate(self.route):
-                next_index = i + 1
-                to_city = self.next_city(next_index, self.route)
-                path_distance += from_city.distance(to_city)
+            path_distance = self.path_distance
             self.distance = path_distance
         return self.distance
+
+    @property
+    def path_distance(self):
+        path_distance = 0
+        for i, from_city in enumerate(self.route):
+            next_index = i + 1
+            to_city = self.next_city(next_index, self.route)
+            path_distance += from_city.distance(to_city)
+        self.distance = path_distance
+        return path_distance
 
     def next_city(self, next_index, route):
         result = None
