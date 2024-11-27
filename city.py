@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 
 class City:
@@ -19,6 +20,9 @@ class City:
     @property
     def get_y(self):
         return self._y_coordinate
+
+    def square(self, num):
+        return math.pow(num, 2)
 
 
 cit = City(4, 5)
