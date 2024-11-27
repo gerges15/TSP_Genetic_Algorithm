@@ -3,8 +3,8 @@ import numpy as np
 
 class City:
     def __init__(self, x, y):
-        self._x_coordinate = x
-        self._y_coordinate = y
+        self._x_point = x
+        self._y_point = y
 
     def distance(self, city):
         x_difference = abs(self.get_x - city.get_x)
@@ -14,11 +14,11 @@ class City:
 
     @property
     def get_x(self):
-        return self._x_coordinate
+        return self._x_point
 
     @property
     def get_y(self):
-        return self._y_coordinate
+        return self._y_point
 
     def square(self, num):
         return num**2
