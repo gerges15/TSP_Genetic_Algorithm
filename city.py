@@ -9,7 +9,8 @@ class City:
     def distance(self, city):
         y_difference = self.y_difference(city)
         result = np.sqrt(
-            (self.square(self.x_difference(city))) + (self.square(y_difference))
+            (self.square(self.x_difference(city)))
+            + (self.square(self.y_difference(city)))
         )
         return result
 
