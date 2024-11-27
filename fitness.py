@@ -8,14 +8,14 @@ class Fitness:
         self.fitness = 0.0
 
     def route_distance(self):
-        return self.zz_route_distance()
+        return self.zx_route_distance()
 
     def zz_route_distance(self):
         return self.zx_route_distance()
 
     def zx_route_distance(self):
-        if self.distance == 0:
-            self.distance = self.path_distance
+        self.distance = self.path_distance if self.distance == 0 else self.distance
+
         return self.distance
 
     @property
