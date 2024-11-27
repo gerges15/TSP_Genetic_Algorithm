@@ -7,7 +7,6 @@ class City:
         self._y_point = y
 
     def distance(self, city):
-        x_difference = self.x_difference(city)
         y_difference = abs(self.get_y - city.get_y)
         result = np.sqrt(
             (self.square(self.x_difference(city))) + (self.square(y_difference))
