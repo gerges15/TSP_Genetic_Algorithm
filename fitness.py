@@ -15,15 +15,19 @@ class Fitness:
             path_distance = 0
             for i, city in enumerate(self.route):
                 from_city = city
-                to_city = None
                 next_index = i + 1
-                if next_index < len(self.route):
-                    to_city = self.route[i + 1]
-                if next_index == len(self.route):
-                    to_city = self.route[0]
+                to_city = self.to_city(next_index, self.route)
                 path_distance += from_city.distance(to_city)
             self.distance = path_distance
         return self.distance
+
+    def to_city(self, next_index, route):
+        to_city = None
+        if next_index < len(route):
+            to_city = self.route[next_index]
+        if next_index == len(route):
+            to_city = self.route[0]
+        return to_city
 
     def route_fitness(self):
         if self.fitness == 0:
