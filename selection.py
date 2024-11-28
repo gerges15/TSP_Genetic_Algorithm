@@ -22,7 +22,7 @@ def fitness_results(population):
 def selection(pop_ranked, elite_size):
     result = []
     result += apply_elitism(elite_size, pop_ranked)
-    apply_roulette_wheel(elite_size, result, pop_ranked)
+    result += apply_roulette_wheel(elite_size, result, pop_ranked)
     return result
 
 
@@ -43,8 +43,9 @@ def zz_apply_roulette_wheel(elite_size, selection_results, pop_ranked):
             # i => row and iat[row, column] where 3 is a percent column
             if pick <= rank_df(pop_ranked).iat[i, 3]:
                 # index => pop_ranked[i][0]
-                selection_results.append(pop_ranked[i][0])
+                result.append(pop_ranked[i][0])
                 break
+    return result
 
 
 def rank_df(pop_ranked):
