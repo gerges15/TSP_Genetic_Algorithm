@@ -49,10 +49,8 @@ def rank_df(pop_ranked):
     to_percent = 100
     data = np.array(pop_ranked)
     new_df = pd.DataFrame(data, columns=["Index", "Fitness"])
-    # create cumulative fitness column
     new_df["cumulative_sum"] = new_df.Fitness.cumsum()
-    # convert cumulative fitness to percentage
-    new_df["cum_perc"] = to_percent * new_df.cumulative_sum / new_df.Fitness.sum()
+    new_df["cum_percent"] = to_percent * new_df.cumulative_sum / new_df.Fitness.sum()
     return new_df
 
 
