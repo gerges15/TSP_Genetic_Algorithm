@@ -27,6 +27,11 @@ def selection(pop_ranked, elite_size):
 
 
 def apply_elitism(elite_size, selection_results, pop_ranked):
+    return zz_apply_elitism(elite_size, selection_results, pop_ranked)
+
+
+def zz_apply_elitism(elite_size, selection_results, pop_ranked):
+    result = []
     for i in range(0, elite_size):
         selection_results.append(pop_ranked[i][0])
 
