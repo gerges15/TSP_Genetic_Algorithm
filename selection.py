@@ -3,7 +3,6 @@ from fitness import Fitness
 
 
 def rank_routes(population):
-    fitness_results = fitnesses_result(population)
     return sorted(
         fitnesses_result(population).items(), key=operator.itemgetter(1), reverse=True
     )
