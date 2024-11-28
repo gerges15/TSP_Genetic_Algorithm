@@ -44,7 +44,6 @@ def apply_elitism(elite_size, selection_results, pop_ranked):
 
 
 def apply_roulette_wheel(elite_size, selection_results, pop_ranked, df):
-    df = rank_df(pop_ranked)
     for i in range(0, len(pop_ranked) - elite_size):
         # pick from 0 to 100 random number
         pick = 100 * random.random()
