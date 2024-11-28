@@ -22,7 +22,7 @@ def fitness_results(population):
 def selection(pop_ranked, elite_size):
     result = []
     result += apply_elitism(elite_size, pop_ranked)
-    result += zz_apply_roulette_wheel(elite_size, pop_ranked)
+    result += apply_roulette_wheel(elite_size, pop_ranked)
     return result
 
 
@@ -30,7 +30,7 @@ def apply_elitism(elite_size, pop_ranked):
     return [pop_ranked[i][0] for i in range(elite_size)]
 
 
-def zz_apply_roulette_wheel(elite_size, pop_ranked):
+def apply_roulette_wheel(elite_size, pop_ranked):
     result = []
     for i in range(0, len(pop_ranked) - elite_size):
         # pick from 0 to 100 random number
