@@ -24,7 +24,7 @@ def selection(pop_ranked, elite_size):
     df = rank_df(pop_ranked)
 
     apply_elitism(elite_size, selection_results, pop_ranked)
-    apply_roulette_wheel(elite_size, selection_results, pop_ranked, df)
+    apply_roulette_wheel(elite_size, selection_results, pop_ranked)
     return selection_results
 
 
@@ -43,7 +43,7 @@ def apply_elitism(elite_size, selection_results, pop_ranked):
         selection_results.append(pop_ranked[i][0])
 
 
-def apply_roulette_wheel(elite_size, selection_results, pop_ranked, df):
+def apply_roulette_wheel(elite_size, selection_results, pop_ranked):
     for i in range(0, len(pop_ranked) - elite_size):
         # pick from 0 to 100 random number
         pick = 100 * random.random()
