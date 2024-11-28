@@ -3,9 +3,8 @@ from fitness import Fitness
 
 
 def rank_routes(population):
-    return sorted(
-        fitness_results(population).items(), key=operator.itemgetter(1), reverse=True
-    )
+    list_of_tuples = fitness_results(population).items()
+    return sorted(list_of_tuples, key=operator.itemgetter(1), reverse=True)
 
 
 def fitness_results(population):
