@@ -31,10 +31,11 @@ def apply_elitism(elite_size, pop_ranked):
 
 
 def apply_roulette_wheel(elite_size, pop_ranked):
+    to_percent = 100
     result = []
     for i in range(0, len(pop_ranked) - elite_size):
         # pick from 0 to 100 random number
-        pick = 100 * random.random()
+        pick = to_percent * random.random()
         for i, _ in enumerate(pop_ranked):
             # i => row and iat[row, column] where 3 is a percent column
             if pick <= rank_df(pop_ranked).iat[i, 3]:
@@ -45,12 +46,13 @@ def apply_roulette_wheel(elite_size, pop_ranked):
 
 
 def rank_df(pop_ranked):
+    to_percent = 100
     data = np.array(pop_ranked)
     new_df = pd.DataFrame(data, columns=["Index", "Fitness"])
     # create cumulative fitness column
     new_df["cum_sum"] = new_df.Fitness.cumsum()
     # convert cumulative fitness to percentage
-    new_df["cum_perc"] = 100 * new_df.cum_sum / new_df.Fitness.sum()
+    new_df["cum_perc"] = to_percent * new_df.cum_sum / new_df.Fitness.sum()
     return new_df
 
 
