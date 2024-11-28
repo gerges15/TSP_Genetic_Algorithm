@@ -20,20 +20,10 @@ def fitness_results(population):
 
 
 def selection(pop_ranked, elite_size):
-    selection_results = []
-    apply_elitism(elite_size, selection_results, pop_ranked)
-    apply_roulette_wheel(elite_size, selection_results, pop_ranked)
-    return selection_results
-
-
-def rank_df(pop_ranked):
-    # create dataRankFrame from population rank list that contains index and corresponding fitness
-    df = pd.DataFrame(np.array(pop_ranked), columns=["Index", "Fitness"])
-    # create cumulative fitness column
-    df["cum_sum"] = df.Fitness.cumsum()
-    # convert cumulative fitness to percentage
-    df["cum_perc"] = 100 * df.cum_sum / df.Fitness.sum()
-    return df
+    result = []
+    apply_elitism(elite_size, result, pop_ranked)
+    apply_roulette_wheel(elite_size, result, pop_ranked)
+    return result
 
 
 def apply_elitism(elite_size, selection_results, pop_ranked):
@@ -51,6 +41,16 @@ def apply_roulette_wheel(elite_size, selection_results, pop_ranked):
                 # index => pop_ranked[i][0]
                 selection_results.append(pop_ranked[i][0])
                 break
+
+
+def rank_df(pop_ranked):
+    # create dataRankFrame from population rank list that contains index and corresponding fitness
+    df = pd.DataFrame(np.array(pop_ranked), columns=["Index", "Fitness"])
+    # create cumulative fitness column
+    df["cum_sum"] = df.Fitness.cumsum()
+    # convert cumulative fitness to percentage
+    df["cum_perc"] = 100 * df.cum_sum / df.Fitness.sum()
+    return df
 
 
 city1 = City(3, 5)
