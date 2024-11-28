@@ -3,7 +3,7 @@ import random
 
 def create_route(city_list):
     route = random.sample(city_list, len(city_list))
-    return route
+    return random.sample(city_list, len(city_list))
 
 
 def initial_population(pop_size, city_list):
