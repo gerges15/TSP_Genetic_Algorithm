@@ -33,12 +33,13 @@ def apply_elitism(elite_size, pop_ranked):
 def apply_roulette_wheel(elite_size, pop_ranked):
     to_percent = 100
     result = []
+    df = rank_df(pop_ranked)
     for i in range(0, len(pop_ranked) - elite_size):
         # pick from 0 to 100 random number
         pick = to_percent * random.random()
         for i, _ in enumerate(pop_ranked):
             # i => row and iat[row, column] where 3 is a percent column
-            if pick <= rank_df(pop_ranked).iat[i, 3]:
+            if pick <= df.iat[i, 3]:
                 # index => pop_ranked[i][0]
                 result.append(pop_ranked[i][0])
                 break
