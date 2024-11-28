@@ -30,10 +30,6 @@ def apply_elitism(elite_size, pop_ranked):
     return [pop_ranked[i][0] for i in range(elite_size)]
 
 
-def apply_roulette_wheel(elite_size, selection_results, pop_ranked):
-    return zz_apply_roulette_wheel(elite_size, pop_ranked)
-
-
 def zz_apply_roulette_wheel(elite_size, pop_ranked):
     result = []
     for i in range(0, len(pop_ranked) - elite_size):
