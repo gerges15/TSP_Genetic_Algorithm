@@ -21,8 +21,6 @@ def fitness_results(population):
 
 def selection(pop_ranked, elite_size):
     selection_results = []
-    df = rank_df(pop_ranked)
-
     apply_elitism(elite_size, selection_results, pop_ranked)
     apply_roulette_wheel(elite_size, selection_results, pop_ranked)
     return selection_results
