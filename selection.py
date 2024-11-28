@@ -21,16 +21,16 @@ def fitness_results(population):
 
 def selection(pop_ranked, elite_size):
     result = []
-    result += apply_elitism(elite_size, result, pop_ranked)
+    result += zz_apply_elitism(elite_size, pop_ranked)
     apply_roulette_wheel(elite_size, result, pop_ranked)
     return result
 
 
 def apply_elitism(elite_size, selection_results, pop_ranked):
-    return zz_apply_elitism(elite_size, selection_results, pop_ranked)
+    return zz_apply_elitism(elite_size, pop_ranked)
 
 
-def zz_apply_elitism(elite_size, selection_results, pop_ranked):
+def zz_apply_elitism(elite_size, pop_ranked):
     result = [pop_ranked[i][0] for i in range(elite_size)]
     return result
 
