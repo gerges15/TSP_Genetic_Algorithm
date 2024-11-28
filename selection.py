@@ -45,7 +45,8 @@ def apply_roulette_wheel(elite_size, pop_ranked):
 
 
 def rank_df(pop_ranked):
-    new_df = pd.DataFrame(np.array(pop_ranked), columns=["Index", "Fitness"])
+    data = np.array(pop_ranked)
+    new_df = pd.DataFrame(data, columns=["Index", "Fitness"])
     # create cumulative fitness column
     new_df["cum_sum"] = new_df.Fitness.cumsum()
     # convert cumulative fitness to percentage
