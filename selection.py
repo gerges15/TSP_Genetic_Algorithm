@@ -8,7 +8,7 @@ def rank_routes(population):
 
 
 def fitnesses_result(population):
-    fitness_results = {}
+    results = {}
     for i, _ in enumerate(population):
-        fitness_results[i] = Fitness(population[i]).route_fitness()
-    return fitness_results
+        results[i] = Fitness(population[i]).route_fitness()
+    return results
