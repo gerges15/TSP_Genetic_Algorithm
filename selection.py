@@ -20,9 +20,9 @@ def fitness_results(population):
 
 
 def selection(pop_ranked, elite_size):
-    result = []
-    result += apply_elitism(elite_size, pop_ranked)
-    result += apply_roulette_wheel(elite_size, pop_ranked)
+    result = apply_elitism(elite_size, pop_ranked) + apply_roulette_wheel(
+        elite_size, pop_ranked
+    )
     return result
 
 
@@ -64,4 +64,4 @@ cityList = [city1, city2, city3, city4, city5]
 pop = initial_population(10, cityList)
 ranked = rank_routes(pop)
 print(ranked)
-print(selection(ranked, 10))
+print(selection(ranked, 3))
