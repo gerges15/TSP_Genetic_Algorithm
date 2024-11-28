@@ -28,7 +28,7 @@ def selection(pop_ranked, elite_size):
 
 def apply_elitism(elite_size, pop_ranked):
     result = [pop_ranked[i][0] for i in range(elite_size)]
-    return result
+    return [pop_ranked[i][0] for i in range(elite_size)]
 
 
 def apply_roulette_wheel(elite_size, selection_results, pop_ranked):
