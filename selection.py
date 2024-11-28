@@ -30,6 +30,16 @@ def selection(pop_ranked, elite_size):
     df["cum_perc"] = 100 * df.cum_sum / df.Fitness.sum()
 
     apply_elitism(elite_size, selection_results, pop_ranked)
+    apply_roulette_wheel(elite_size, selection_results, pop_ranked, df)
+    return selection_results
+
+
+def apply_elitism(elite_size, selection_results, pop_ranked):
+    for i in range(0, elite_size):
+        selection_results.append(pop_ranked[i][0])
+
+
+def apply_roulette_wheel(elite_size, selection_results, pop_ranked, df):
     for i in range(0, len(pop_ranked) - elite_size):
         # pick from 0 to 100 random number
         pick = 100 * random.random()
@@ -39,12 +49,6 @@ def selection(pop_ranked, elite_size):
                 # index => pop_ranked[i][0]
                 selection_results.append(pop_ranked[i][0])
                 break
-    return selection_results
-
-
-def apply_elitism(elite_size, selection_results, pop_ranked):
-    for i in range(0, elite_size):
-        selection_results.append(pop_ranked[i][0])
 
 
 city1 = City(3, 5)
