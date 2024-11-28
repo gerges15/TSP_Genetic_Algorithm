@@ -22,7 +22,7 @@ def fitness_results(population):
 def selection(pop_ranked, elite_size):
     result = []
     result += apply_elitism(elite_size, pop_ranked)
-    result += apply_roulette_wheel(elite_size, result, pop_ranked)
+    result += zz_apply_roulette_wheel(elite_size, pop_ranked)
     return result
 
 
