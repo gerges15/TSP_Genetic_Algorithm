@@ -32,8 +32,9 @@ def apply_elitism(elite_size, pop_ranked):
 
 def apply_roulette_wheel(elite_size, pop_ranked):
     result = []
+    additional_count = len(pop_ranked) - elite_size
     df = rank_df(pop_ranked)
-    for _ in range(0, len(pop_ranked) - elite_size):
+    for _ in range(0, additional_count):
         result += pick_selection(pop_ranked, df)
     return result
 
