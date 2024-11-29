@@ -34,16 +34,9 @@ def breed_elitism(mating_pool, elite_size):
 
 def generate_children(mating_pool, elite_size):
     result = []
-    pool = random.sample(mating_pool, len(mating_pool))
     length = len(mating_pool) - elite_size
+    pool = random.sample(mating_pool, len(mating_pool))
     for i in range(0, length):
         child = breed(pool[i], pool[len(mating_pool) - i - 1])
         result.append(child)
     return result
-
-
-mat = [["A", "b", "c"], ["b", "c", "A"], ["c", "b", "A"]]
-
-print(breed_population(mat, 2))
-
-print(breed_elitism(mat, 2))
