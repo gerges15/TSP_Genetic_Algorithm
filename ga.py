@@ -3,6 +3,7 @@ from population import initial_population
 from selection import rank_routes
 
 
+#! need to refactor make less parameters as you can
 def genetic_algorithm(population, pop_size, elite_size, mutation_rate, generations):
     pop = initial_population(pop_size, population)
     print("Initial distance: " + str(1 / rank_routes(pop)[0][1]))
