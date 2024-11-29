@@ -22,9 +22,9 @@ def breed(parent1, parent2):
 
 
 def breed_population(mating_pool, elite_size):
-    children = []
-    children += breed_elitism(mating_pool, elite_size)
-    children += generate_children(mating_pool, elite_size)
+    children = breed_elitism(mating_pool, elite_size) + generate_children(
+        mating_pool, elite_size
+    )
     return children
 
 
