@@ -8,13 +8,13 @@ def mutate(individual, mutation_rate):
     return individual
 
 
-def swap_within(individual, swapped):
+def swap_within(individual, swapped_index):
     swap_with = int(random.random() * len(individual))
 
-    city1 = individual[swapped]
+    city1 = individual[swapped_index]
     city2 = individual[swap_with]
 
-    individual[swapped], individual[swap_with] = city2, city1
+    individual[swapped_index], individual[swap_with] = city2, city1
 
 
 indiv = ["a", "b", "c", "d"]
