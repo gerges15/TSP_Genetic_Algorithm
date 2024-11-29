@@ -16,6 +16,25 @@ def swap_genes(chromosome, gene_index):
     chromosome[gene_index], chromosome[random_index] = gene2, gene1
 
 
-indiv = ["a", "b", "c", "d"]
+def mutate_population(population, mutation_rate):
+    mutated_pop = []
+
+    for ind, _ in enumerate(population):
+        mutated_ind = apply_mutation(population[ind], mutation_rate)
+        mutated_pop.append(mutated_ind)
+    return mutated_pop
+
+
+indiv = [
+    ["a", "b", "c", "d"],
+    ["a", "b", "c", "d"],
+    ["a", "b", "c", "d"],
+    ["a", "b", "c", "d"],
+    ["a", "b", "c", "d"],
+    ["a", "b", "c", "d"],
+    ["a", "b", "c", "d"],
+    ["a", "b", "c", "d"],
+    ["a", "b", "c", "d"],
+]
 mr = 0.24
-print(apply_mutation(indiv, mr))
+print(mutate_population(indiv, mr))
