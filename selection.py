@@ -35,12 +35,13 @@ def apply_roulette_wheel(elite_size, pop_ranked):
     result = []
     df = rank_df(pop_ranked)
     for _ in range(0, len(pop_ranked) - elite_size):
-        pick = to_percent * random.random()
-        pick_selection(pick, pop_ranked, df, result)
+        pick_selection(pop_ranked, df, result)
     return result
 
 
-def pick_selection(pick, pop_ranked, df, result):
+def pick_selection(pop_ranked, df, result):
+    to_percent = 100
+    pick = to_percent * random.random()
     percent_col_num = 3
     for row_num, _ in enumerate(pop_ranked):
         if pick <= df.iat[row_num, percent_col_num]:
