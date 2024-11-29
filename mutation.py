@@ -1,22 +1,21 @@
 import random
 
 
-def mutate(individual, mutation_rate):
-    for swapped, _ in enumerate(individual):
+def apply_mutation(chromosome, mutation_rate):
+    for gene_index, _ in enumerate(chromosome):
         if random.random() < mutation_rate:
-            swap_within(individual, swapped)
-    return individual
+            swap_genes(chromosome, gene_index)
+    return chromosome
 
 
-def swap_within(individual, swapped_index):
-    swap_with = int(random.random() * len(individual))
+def swap_genes(chromosome, gene_index):
+    random_index = int(random.random() * len(chromosome))
 
-    city1 = individual[swapped_index]
-    city2 = individual[swap_with]
-
-    individual[swapped_index], individual[swap_with] = city2, city1
+    gene1 = chromosome[gene_index]
+    gene2 = chromosome[random_index]
+    chromosome[gene_index], chromosome[random_index] = gene2, gene1
 
 
 indiv = ["a", "b", "c", "d"]
 mr = 0.24
-print(mutate(indiv, mr))
+print(apply_mutation(indiv, mr))
