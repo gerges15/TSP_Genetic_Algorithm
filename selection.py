@@ -39,6 +39,15 @@ def apply_roulette_wheel(elite_size, pop_ranked):
     return result
 
 
+def rank_df(pop_ranked):
+    to_percent = 100
+    data = np.array(pop_ranked)
+    new_df = pd.DataFrame(data, columns=["Index", "Fitness"])
+    new_df["cumulative_sum"] = new_df.Fitness.cumsum()
+    new_df["cum_percent"] = to_percent * new_df.cumulative_sum / new_df.Fitness.sum()
+    return new_df
+
+
 def pick_selection(pop_ranked, df):
     to_percent = 100
     pick = to_percent * random.random()
@@ -48,15 +57,6 @@ def pick_selection(pop_ranked, df):
             pop_index = [pop_ranked[row_num][0]]
             return pop_index
     return []
-
-
-def rank_df(pop_ranked):
-    to_percent = 100
-    data = np.array(pop_ranked)
-    new_df = pd.DataFrame(data, columns=["Index", "Fitness"])
-    new_df["cumulative_sum"] = new_df.Fitness.cumsum()
-    new_df["cum_percent"] = to_percent * new_df.cumulative_sum / new_df.Fitness.sum()
-    return new_df
 
 
 def mating_pool(population, selection_results):
