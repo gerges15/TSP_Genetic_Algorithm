@@ -44,8 +44,8 @@ def pick_selection(pop_ranked, df):
     percent_col_num = 3
     for row_num, _ in enumerate(pop_ranked):
         if pick <= df.iat[row_num, percent_col_num]:
-            # index => pop_ranked[i][0]
-            return [pop_ranked[row_num][0]]
+            pop_index = [pop_ranked[row_num][0]]
+            return pop_index
     return []
 
 
