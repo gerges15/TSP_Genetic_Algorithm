@@ -4,6 +4,11 @@ class Fitness:
         self.distance = 0
         self.fitness = 0.0
 
+    def route_fitness(self):
+        if self.fitness == 0:
+            self.fitness = 1 / float(self.route_distance)
+        return self.fitness
+
     @property
     def route_distance(self):
         self.distance = self.path_distance if self.distance == 0 else self.distance
@@ -25,8 +30,3 @@ class Fitness:
         if next_index == len(route):
             result = self.route[0]
         return result
-
-    def route_fitness(self):
-        if self.fitness == 0:
-            self.fitness = 1 / float(self.route_distance)
-        return self.fitness
