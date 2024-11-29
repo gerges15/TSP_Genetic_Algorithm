@@ -3,8 +3,6 @@ import random
 import numpy as np
 import pandas as pd
 from fitness import Fitness
-from city import City
-from population import initial_population
 
 
 def rank_routes(population):
@@ -65,17 +63,3 @@ def mating_pool(population, selection_results):
         index = selection_results[i]
         result.append(population[index])
     return result
-
-
-city1 = City(3, 5)
-city2 = City(3, 6)
-city3 = City(23, 5)
-city4 = City(8, 65)
-city5 = City(35, 25)
-
-cityList = [city1, city2, city3, city4, city5]
-pop = initial_population(10, cityList)
-ranked = rank_routes(pop)
-print(ranked)
-selected = selection(ranked, 3)
-print(selected)
