@@ -31,7 +31,6 @@ def apply_elitism(elite_size, pop_ranked):
 
 
 def apply_roulette_wheel(elite_size, pop_ranked):
-    to_percent = 100
     result = []
     df = rank_df(pop_ranked)
     for _ in range(0, len(pop_ranked) - elite_size):
