@@ -23,18 +23,3 @@ def mutate_population(population, mutation_rate):
         mutated_ind = apply_mutation(population[ind], mutation_rate)
         mutated_pop.append(mutated_ind)
     return mutated_pop
-
-
-indiv = [
-    ["a", "b", "c", "d"],
-    ["a", "b", "c", "d"],
-    ["a", "b", "c", "d"],
-    ["a", "b", "c", "d"],
-    ["a", "b", "c", "d"],
-    ["a", "b", "c", "d"],
-    ["a", "b", "c", "d"],
-    ["a", "b", "c", "d"],
-    ["a", "b", "c", "d"],
-]
-mr = 0.24
-print(mutate_population(indiv, mr))
