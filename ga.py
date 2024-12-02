@@ -3,19 +3,6 @@ from population import initial_population
 from selection import rank_routes
 
 
-#! need to refactor make less parameters as you can
-def genetic_algorithm(population, pop_size, elite_size, mutation_rate, generations):
-    tspData = {
-        "population": population,
-        "pop_size": pop_size,
-        "elite_size": elite_size,
-        "mutation_rate": mutation_rate,
-        "generations": generations,
-    }
-
-    return zz_genetic_algorithm(tspData)
-
-
 def zz_genetic_algorithm(tspData):
     pop = initial_population(tspData["pop_size"], tspData["population"])
     print("Initial distance: " + str(1 / rank_routes(pop)[0][1]))
