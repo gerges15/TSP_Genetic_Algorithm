@@ -1,6 +1,6 @@
 import random
 from city import City
-from ga import zz_genetic_algorithm
+from ga import genetic_algorithm
 
 
 cityList = []
@@ -16,4 +16,4 @@ tspData = {
     "generations": 50,
 }
 
-best_rout = zz_genetic_algorithm(tspData)
+best_rout = genetic_algorithm(tspData)

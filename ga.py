@@ -3,7 +3,7 @@ from population import initial_population
 from selection import rank_routes
 
 
-def zz_genetic_algorithm(tspData):
+def genetic_algorithm(tspData):
     pop = initial_population(tspData["pop_size"], tspData["population"])
     print("Initial distance: " + str(1 / rank_routes(pop)[0][1]))
 
