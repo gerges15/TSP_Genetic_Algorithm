@@ -1,5 +1,4 @@
-import random
-from city import City, generate_city_list
+from city import generate_city_list
 from ga import genetic_algorithm
 
 CITY_NUMBERS = 20
