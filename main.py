@@ -13,5 +13,5 @@ best_rout = genetic_algorithm(
     pop_size=100,
     elite_size=20,
     mutation_rate=0.01,
-    generations=500,
+    generations=50,
 )
