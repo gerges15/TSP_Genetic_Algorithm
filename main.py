@@ -5,7 +5,7 @@ CITY_NUMBERS = 20
 cityList = generate_city_list(CITY_NUMBERS)
 
 tsp_data = {
-    "population": cityList,
+    "population": generate_city_list(CITY_NUMBERS),
     "pop_size": 100,
     "elite_size": 20,
     "mutation_rate": 0.01,
