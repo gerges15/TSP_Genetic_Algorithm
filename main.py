@@ -1,12 +1,9 @@
 import random
-from city import City
+from city import City, generate_city_list
 from ga import genetic_algorithm
 
-
-cityList = []
 CITY_NUMBERS = 20
-for i in range(0, CITY_NUMBERS):
-    cityList.append(City(x=int(random.random() * 200), y=int(random.random() * 200)))
+cityList = generate_city_list(CITY_NUMBERS)
 
 tsp_data = {
     "population": cityList,
