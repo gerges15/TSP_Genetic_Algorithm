@@ -13,10 +13,10 @@ def genetic_algorithm(population, pop_size, elite_size, mutation_rate, generatio
         "generations": generations,
     }
 
-    return zz_genetic_algorithm(generations, tspData)
+    return zz_genetic_algorithm(tspData)
 
 
-def zz_genetic_algorithm(generations, tspData):
+def zz_genetic_algorithm(tspData):
     pop = initial_population(tspData["pop_size"], tspData["population"])
     print("Initial distance: " + str(1 / rank_routes(pop)[0][1]))
 
