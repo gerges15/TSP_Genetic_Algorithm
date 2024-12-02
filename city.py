@@ -1,3 +1,4 @@
+import random
 import numpy as np
 
 
@@ -28,3 +29,11 @@ class City:
 
     def square(self, num):
         return num**2
+
+
+def generate_city_list(num):
+    return [City(x=random_position(), y=random_position()) for i in range(num)]
+
+
+def random_position():
+    return int(random.random() * 200)
