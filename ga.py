@@ -5,7 +5,12 @@ from selection import rank_routes
 
 #! need to refactor make less parameters as you can
 def genetic_algorithm(population, pop_size, elite_size, mutation_rate, generations):
-    tspData = {"population": population, "pop_size": pop_size, "elite_size": elite_size}
+    tspData = {
+        "population": population,
+        "pop_size": pop_size,
+        "elite_size": elite_size,
+        "mutation_rate": mutation_rate,
+    }
 
     return zz_genetic_algorithm(mutation_rate, generations, tspData)
 
@@ -15,7 +20,7 @@ def zz_genetic_algorithm(mutation_rate, generations, tspData):
     print("Initial distance: " + str(1 / rank_routes(pop)[0][1]))
 
     for _ in range(0, generations):
-        pop = next_generation(pop, tspData["elite_size"], mutation_rate)
+        pop = next_generation(pop, tspData["elite_size"], tspData["mutation_rate"])
 
     print("Final distance: " + str(1 / rank_routes(pop)[0][1]))
     best_route_index = rank_routes(pop)[0][0]
