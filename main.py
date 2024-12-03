@@ -8,7 +8,7 @@ tsp_data = {
     "pop_size": 100,
     "elite_size": 20,
     "mutation_rate": 0.01,
-    "generations": 50,
+    "generations": 500,
 }
 
 best_rout = genetic_algorithm(tsp_data)

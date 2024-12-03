@@ -17,3 +17,9 @@ def genetic_algorithm_plot(tsp_data):
     plt.ylabel("Distance")
     plt.xlabel("Generation")
     plt.show()
+
+
+def improved_generations(pop, tsp_data):
+    for _ in range(0, tsp_data["generations"]):
+        pop = next_generation(pop, tsp_data["elite_size"], tsp_data["mutation_rate"])
+    return pop
