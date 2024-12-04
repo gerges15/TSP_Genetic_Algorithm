@@ -16,7 +16,9 @@ def genetic_algorithm_plot(tsp_data):
     plt.plot(progress)
     plt.ylabel("Distance")
     plt.xlabel("Generation")
+
     plt.show()
+    return pop
 
 
 def improved_generations(pop, tsp_data):
