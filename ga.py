@@ -1,4 +1,4 @@
-from nextgenratoin import next_generation
+from model.generations import next_generation
 from model.population import initial_population
 from model.selection import rank_routes
 
