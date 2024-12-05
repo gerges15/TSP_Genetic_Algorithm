@@ -76,16 +76,6 @@ class TSPApp:
         ).grid(row=2, column=0, sticky="w", padx=10, pady=5)
         self.inputs["Generations"] = self.create_input_field(2, 1)
 
-        clear_button = tk.Button(
-            self.frame_inputs,
-            text="Clear",
-            command=self.clear_inputs,
-            font=self.font,
-            bg="#FF8000",
-            fg="#EEEEEE",
-        )
-        clear_button.grid(row=2, column=3, padx=10, pady=10, sticky="nsew")
-
     def create_input_field(self, row, col, is_float=False):
         """Creates an input field with validation."""
         var = tk.StringVar()
@@ -115,6 +105,16 @@ class TSPApp:
             fg="#EEEEEE",
         )
         start_button.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+
+        clear_button = tk.Button(
+            self.frame_buttons,
+            text="Clear",
+            command=self.clear_inputs,
+            font=self.font,
+            bg="#FF8000",
+            fg="#EEEEEE",
+        )
+        clear_button.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
         continue_button = tk.Button(
             self.frame_buttons,
