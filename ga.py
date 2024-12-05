@@ -1,5 +1,5 @@
 from index import next_generation
-from population import initial_population
+from model.population import initial_population
 from selection import rank_routes
 
 
