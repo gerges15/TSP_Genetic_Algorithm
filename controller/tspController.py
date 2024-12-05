@@ -1,7 +1,8 @@
 import tkinter as tk
 import random
-from model.city import City
+from model.city import City, generate_city_list
 from view.view import TSPView
+from model.ga import genetic_algorithm
 
 
 class TSPController:
@@ -9,6 +10,15 @@ class TSPController:
         # Create the main window
         self.root = tk.Tk()
         self.root.title("Traveling Salesman Problem(TSP) Visualization")
+        self.CITY_NUMBERS = 20
+
+        self.tsp_data = {
+            "population": generate_city_list(self.CITY_NUMBERS),
+            "pop_size": 100,
+            "elite_size": 20,
+            "mutation_rate": 0.01,
+            "generations": 5,
+        }
 
         # Set the window background color to indigo with opacity 0.8
         self.root.configure(bg="#3D26B1")
@@ -75,13 +85,10 @@ class TSPController:
 
     def initialize_cities(self):
         self.num_cities = self.num_cities_slider.get()
-        self.cities = [
-            City(x=random.randint(20, 540), y=random.randint(20, 540))
-            for _ in range(self.num_cities)
-        ]
-        self.solver = TSPSolver(self.cities)
+        self.cities = self.tsp_data["population"]
+        self.solver = genetic_algorithm(self.tsp_data)
 
-        ordered_cities, min_distance = self.solver.nearest_neighbor_tsp()
+        ordered_cities, min_distance = self.solver
         self.best_order = ordered_cities
         self.minimum_distance = min_distance
 
@@ -91,9 +98,9 @@ class TSPController:
             City(x=random.randint(20, 540), y=random.randint(20, 540))
             for _ in range(self.num_cities)
         ]
-        self.solver = TSPSolver(self.cities)
+        self.solver = genetic_algorithm(self.tsp_data)
 
-        ordered_cities, min_distance = self.solver.nearest_neighbor_tsp()
+        ordered_cities, min_distance = self.solver
         self.best_order = ordered_cities
         self.minimum_distance = min_distance
 
