@@ -9,7 +9,7 @@ class TSPApp:
         self.root.geometry("800x600")
         self.root.configure(bg="#f0f0f0")
 
-        self.font = ("JetBrains Mono", 12)
+        self.font = ("JetBrains Mono", 11)
 
         self.create_frames()
         self.create_visualization_area()
@@ -76,6 +76,15 @@ class TSPApp:
         ).grid(row=2, column=0, sticky="w", padx=10, pady=5)
         self.inputs["Generations"] = self.create_input_field(2, 1)
 
+        clear_button = tk.Button(
+            self.frame_inputs,
+            text="Clear",
+            command=self.clear_inputs,
+            font=self.font,
+            bg="red",
+        )
+        clear_button.grid(row=2, column=3, padx=10, pady=10, sticky="nsew")
+
     def create_input_field(self, row, col, is_float=False):
         """Creates an input field with validation."""
         var = tk.StringVar()
@@ -103,14 +112,6 @@ class TSPApp:
             font=self.font,
         )
         start_button.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
-
-        clear_button = tk.Button(
-            self.frame_buttons,
-            text="Clear",
-            command=self.clear_inputs,
-            font=self.font,
-        )
-        clear_button.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
         continue_button = tk.Button(
             self.frame_buttons,
