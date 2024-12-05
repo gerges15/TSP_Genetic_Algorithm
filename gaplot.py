@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from index import next_generation
+from next_generatoin import next_generation
 from population import initial_population
 from selection import rank_routes
 
