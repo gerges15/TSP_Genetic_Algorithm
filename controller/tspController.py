@@ -9,7 +9,7 @@ class TSPApp:
         self.root.geometry("800x600")
         self.root.configure(bg="#f0f0f0")
 
-        self.font = ("JetBrains Mono", 11)
+        self.font = ("JetBrains Mono", 12)
 
         self.create_frames()
         self.create_visualization_area()
@@ -104,10 +104,13 @@ class TSPApp:
         )
         start_button.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
-        stop_button = tk.Button(
-            self.frame_buttons, text="Stop", command=self.stop_algorithm, font=self.font
+        clear_button = tk.Button(
+            self.frame_buttons,
+            text="Clear",
+            command=self.clear_inputs,
+            font=self.font,
         )
-        stop_button.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+        clear_button.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
         continue_button = tk.Button(
             self.frame_buttons,
@@ -149,10 +152,10 @@ class TSPApp:
                 "Input Error", "Please fill in all fields with valid values."
             )
 
-    def stop_algorithm(self):
-        """Stops the genetic algorithm."""
-        print("Stopping Genetic Algorithm...")
-        # Your logic here
+    def clear_inputs(self):
+        """Clears all input fields."""
+        for key in self.inputs:
+            self.inputs[key].set("")
 
     def continue_algorithm(self):
         """Continues the genetic algorithm."""
