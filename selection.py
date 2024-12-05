@@ -2,7 +2,7 @@ import operator
 import random
 import numpy as np
 import pandas as pd
-from fitness import Fitness
+from model.fitness import Fitness
 
 
 def rank_routes(population):
