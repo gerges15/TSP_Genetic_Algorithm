@@ -1,5 +1,5 @@
 from model.crossover import breed_population
-from mutation import mutate_population
+from model.mutation import mutate_population
 from model.selection import rank_routes, selection, mating_pool
 
 
