@@ -1,5 +1,5 @@
 from model.city import generate_city_list
-from ga import genetic_algorithm
+from controller.ga import genetic_algorithm
 
 CITY_NUMBERS = 20
 

@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
-from generations import next_generation
-from population import initial_population
-from selection import rank_routes
+from model.generations import next_generation
+from model.population import initial_population
+from model.selection import rank_routes
 
 
 def genetic_algorithm_plot(tsp_data):
