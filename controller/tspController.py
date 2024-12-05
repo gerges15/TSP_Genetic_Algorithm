@@ -1,6 +1,7 @@
 import tkinter as tk
 import random
 from model.city import City
+from view.view import TSPView
 
 
 class TSPController:
