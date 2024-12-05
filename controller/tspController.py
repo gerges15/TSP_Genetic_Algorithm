@@ -119,7 +119,7 @@ class TSPApp:
             text="Continue",
             command=self.continue_algorithm,
             font=self.font,
-            bg="#6A42C2",
+            bg="#4C1F7A",
             fg="white",
         )
         continue_button.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
