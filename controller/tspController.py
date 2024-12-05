@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 
 class TSPApp:
@@ -9,7 +9,7 @@ class TSPApp:
         self.root.geometry("800x600")
         self.root.configure(bg="#f0f0f0")
 
-        self.font = ("JetBrains Mono", 12)
+        self.font = ("JetBrains Mono", 11)
 
         self.create_frames()
         self.create_visualization_area()
@@ -43,68 +43,50 @@ class TSPApp:
         for i in range(4):
             self.frame_inputs.columnconfigure(i, weight=1)
 
+        # Input fields dictionary for easy retrieval
+        self.inputs = {}
+
         # Number of Cities
-        tk.Label(self.frame_inputs, text="Cities", font=self.font, bg="#f0f0f0").grid(
-            row=0, column=0, sticky="w", padx=10, pady=5
-        )
-        self.cities_var = tk.StringVar()
-        self.cities_entry = ttk.Entry(
-            self.frame_inputs, textvariable=self.cities_var, font=self.font
-        )
-        self.cities_entry.grid(row=0, column=1, padx=10, pady=5)
-        self.cities_var.trace("w", lambda *args: self.validate_integer(self.cities_var))
+        tk.Label(
+            self.frame_inputs, text="Number of Cities", font=self.font, bg="#f0f0f0"
+        ).grid(row=0, column=0, sticky="w", padx=10, pady=5)
+        self.inputs["Number of Cities"] = self.create_input_field(0, 1)
 
         # Population Size
         tk.Label(
             self.frame_inputs, text="Population Size", font=self.font, bg="#f0f0f0"
         ).grid(row=0, column=2, sticky="w", padx=10, pady=5)
-        self.pop_size_var = tk.StringVar()
-        self.pop_size_entry = ttk.Entry(
-            self.frame_inputs, textvariable=self.pop_size_var, font=self.font
-        )
-        self.pop_size_entry.grid(row=0, column=3, padx=10, pady=5)
-        self.pop_size_var.trace(
-            "w", lambda *args: self.validate_integer(self.pop_size_var)
-        )
+        self.inputs["Population Size"] = self.create_input_field(0, 3)
 
         # Elite Size
         tk.Label(
             self.frame_inputs, text="Elite Size", font=self.font, bg="#f0f0f0"
         ).grid(row=1, column=0, sticky="w", padx=10, pady=5)
-        self.elite_size_var = tk.StringVar()
-        self.elite_size_entry = ttk.Entry(
-            self.frame_inputs, textvariable=self.elite_size_var, font=self.font
-        )
-        self.elite_size_entry.grid(row=1, column=1, padx=10, pady=5)
-        self.elite_size_var.trace(
-            "w", lambda *args: self.validate_integer(self.elite_size_var)
-        )
+        self.inputs["Elite Size"] = self.create_input_field(1, 1)
 
         # Mutation Rate
         tk.Label(
             self.frame_inputs, text="Mutation Rate", font=self.font, bg="#f0f0f0"
         ).grid(row=1, column=2, sticky="w", padx=10, pady=5)
-        self.mutation_rate_var = tk.StringVar()
-        self.mutation_rate_entry = ttk.Entry(
-            self.frame_inputs, textvariable=self.mutation_rate_var, font=self.font
-        )
-        self.mutation_rate_entry.grid(row=1, column=3, padx=10, pady=5)
-        self.mutation_rate_var.trace(
-            "w", lambda *args: self.validate_float(self.mutation_rate_var)
-        )
+        self.inputs["Mutation Rate"] = self.create_input_field(1, 3, is_float=True)
 
         # Number of Generations
         tk.Label(
             self.frame_inputs, text="Generations", font=self.font, bg="#f0f0f0"
         ).grid(row=2, column=0, sticky="w", padx=10, pady=5)
-        self.generations_var = tk.StringVar()
-        self.generations_entry = ttk.Entry(
-            self.frame_inputs, textvariable=self.generations_var, font=self.font
-        )
-        self.generations_entry.grid(row=2, column=1, padx=10, pady=5)
-        self.generations_var.trace(
-            "w", lambda *args: self.validate_integer(self.generations_var)
-        )
+        self.inputs["Generations"] = self.create_input_field(2, 1)
+
+    def create_input_field(self, row, col, is_float=False):
+        """Creates an input field with validation."""
+        var = tk.StringVar()
+        entry = ttk.Entry(self.frame_inputs, textvariable=var, font=self.font)
+        entry.grid(row=row, column=col, padx=10, pady=5)
+
+        if is_float:
+            var.trace("w", lambda *args: self.validate_float(var))
+        else:
+            var.trace("w", lambda *args: self.validate_integer(var))
+        return var
 
     def create_buttons(self):
         """Creates buttons to control the algorithm with space-evenly alignment."""
@@ -152,8 +134,20 @@ class TSPApp:
 
     def start_algorithm(self):
         """Starts the genetic algorithm."""
-        print("Starting Genetic Algorithm...")
-        # Your logic here
+        try:
+            tsp_data = {
+                "Number of Cities": int(self.inputs["Number of Cities"].get()),
+                "Population Size": int(self.inputs["Population Size"].get()),
+                "Elite Size": int(self.inputs["Elite Size"].get()),
+                "Mutation Rate": float(self.inputs["Mutation Rate"].get()),
+                "Generations": int(self.inputs["Generations"].get()),
+            }
+            print("Starting algorithm with:", tsp_data)
+            # Visualization and logic will be implemented here
+        except ValueError:
+            messagebox.showerror(
+                "Input Error", "Please fill in all fields with valid values."
+            )
 
     def stop_algorithm(self):
         """Stops the genetic algorithm."""
