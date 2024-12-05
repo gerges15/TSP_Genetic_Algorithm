@@ -13,7 +13,7 @@ def genetic_algorithm(tsp_data):
     print("Final distance: " + str(best_distance))
     best_route_index = rank_routes(pop)[0][0]
     best_route = pop[best_route_index]
-    return best_route
+    return best_route, best_distance
 
 
 def improved_generations(pop, tsp_data):
