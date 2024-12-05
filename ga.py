@@ -1,6 +1,6 @@
 from index import next_generation
 from model.population import initial_population
-from selection import rank_routes
+from model.selection import rank_routes
 
 
 def genetic_algorithm(tsp_data):

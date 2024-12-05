@@ -1,6 +1,6 @@
 from crossover import breed_population
 from mutation import mutate_population
-from selection import rank_routes, selection, mating_pool
+from model.selection import rank_routes, selection, mating_pool
 
 
 #! need to refactor make less parameters as you can
