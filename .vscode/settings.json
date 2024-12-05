@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["TOPERCENT"]
+  "cSpell.words": ["TOPERCENT"],
+  "python.analysis.extraPaths": ["./model"]
 }
