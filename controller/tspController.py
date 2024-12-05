@@ -116,15 +116,15 @@ class TSPApp:
         )
         clear_button.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
-        continue_button = tk.Button(
+        show_button = tk.Button(
             self.frame_buttons,
-            text="Continue",
+            text="Show Results",
             command=self.continue_algorithm,
             font=self.font,
             bg="#4C1F7A",
             fg="#EEEEEE",
         )
-        continue_button.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
+        show_button.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
 
     def validate_integer(self, var):
         """Ensures input is an integer."""
