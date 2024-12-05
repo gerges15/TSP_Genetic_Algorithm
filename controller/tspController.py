@@ -82,7 +82,7 @@ class TSPApp:
             command=self.clear_inputs,
             font=self.font,
             bg="#FF8000",
-            fg="white",
+            fg="#EEEEEE",
         )
         clear_button.grid(row=2, column=3, padx=10, pady=10, sticky="nsew")
 
@@ -111,6 +111,8 @@ class TSPApp:
             text="Start Genetic Algorithm",
             command=self.start_algorithm,
             font=self.font,
+            bg="#219B9D",
+            fg="#EEEEEE",
         )
         start_button.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
@@ -120,7 +122,7 @@ class TSPApp:
             command=self.continue_algorithm,
             font=self.font,
             bg="#4C1F7A",
-            fg="white",
+            fg="#EEEEEE",
         )
         continue_button.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
 
