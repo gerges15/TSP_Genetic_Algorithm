@@ -81,7 +81,8 @@ class TSPApp:
             text="Clear",
             command=self.clear_inputs,
             font=self.font,
-            bg="red",
+            bg="#FF8000",
+            fg="white",
         )
         clear_button.grid(row=2, column=3, padx=10, pady=10, sticky="nsew")
 
