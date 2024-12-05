@@ -1,4 +1,7 @@
-from controller.tspController import TSPController
+import tkinter as tk
+from controller.tspController import TSPGUI
 
 if __name__ == "__main__":
-    controller = TSPController()
+    root = tk.Tk()
+    app = TSPGUI(root)
+    root.mainloop()
