@@ -1,9 +1,7 @@
 class TSPView:
-    def __init__(self, root, canvas, slider_label, num_points_slider):
+    def __init__(self, root, canvas):
         self.root = root
         self.canvas = canvas
-        self.slider_label = slider_label
-        self.num_points_slider = num_points_slider
 
     def draw_cities_and_solution(self, cities, best_order):
         # Draw points on the canvas and connect them with lines
