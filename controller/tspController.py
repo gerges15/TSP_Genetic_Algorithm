@@ -4,6 +4,8 @@ from tkinter import ttk, messagebox
 from model.city import generate_city_list
 from view.view import TSPView
 
+from model.population import initial_population
+
 
 class TSPApp:
     def __init__(self, root):
@@ -177,9 +179,11 @@ class TSPApp:
             var.set("")
 
     def start_algorithm(self):
-        """Starts the genetic algorithm."""
-        cities_number = int(self.inputs["Number of Cities"].get())
+        """Starts the genetic algorithm with animated path drawing."""
+
         try:
+            # Retrieve inputs
+            cities_number = int(self.inputs["Number of Cities"].get())
             tsp_data = {
                 "population": generate_city_list(cities_number),
                 "pop_size": int(self.inputs["Population Size"].get()),
@@ -188,21 +192,33 @@ class TSPApp:
                 "generations": int(self.inputs["Generations"].get()),
             }
 
+            # Example cities and initial population
             cities = tsp_data["population"]
-            # Draw initial cities and solve TSP
-            self.view.draw_cities(cities)
+            self.view.draw_cities(cities)  # Draw the cities initially
+            best_tour = initial_population(20, cities)  # Example initial population
+
+            # Animation setup
+            self.animate_paths(best_tour, 0)
+
+            # Log the start
             print("Starting algorithm with:", tsp_data)
-            # Example logger update:
             self.results_text.insert("end", f"Best Tour: {tsp_data}\n")
             self.results_text.insert("end", f"Distance: Example Distance\n")
-            self.results_text.insert(
-                "end", f"Current Distance: Example Current Distance\n"
-            )
-            self.results_text.insert("end", f"Generation: Example Generation\n")
         except ValueError:
             messagebox.showerror(
                 "Input Error", "Please fill in all fields with valid values."
             )
+
+    def animate_paths(self, population, index):
+        """Animates the drawing of paths for the population."""
+        if index < len(population):
+            # Draw the current path
+            self.view.draw_path(population[index], color="blue")
+
+            # Schedule the next path to be drawn
+            self.root.after(
+                500, self.animate_paths, population, index + 1
+            )  # Delay of 500ms
 
     def clear_inputs(self):
         """Clears all input fields."""
