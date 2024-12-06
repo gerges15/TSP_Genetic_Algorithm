@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
+from model.city import generate_city_list
+from view.view import TSPView
+
 
 class TSPApp:
     def __init__(self, root):
@@ -17,6 +20,9 @@ class TSPApp:
         self.create_input_fields()
         self.create_buttons()
         self.create_results_frame()
+
+        # Create the view
+        self.view = TSPView(self.root, self.canvas)
 
     def create_frames(self):
         """Creates the three main frames: visualization, input, and buttons."""
@@ -172,14 +178,19 @@ class TSPApp:
 
     def start_algorithm(self):
         """Starts the genetic algorithm."""
+        cities_number = int(self.inputs["Number of Cities"].get())
         try:
             tsp_data = {
-                "population": int(self.inputs["Number of Cities"].get()),
+                "population": generate_city_list(cities_number),
                 "pop_size": int(self.inputs["Population Size"].get()),
                 "elite_size": int(self.inputs["Elite Size"].get()),
                 "mutation_rate": float(self.inputs["Mutation Rate"].get()),
                 "generations": int(self.inputs["Generations"].get()),
             }
+
+            cities = tsp_data["population"]
+            # Draw initial cities and solve TSP
+            self.view.draw_cities(cities)
             print("Starting algorithm with:", tsp_data)
             # Example logger update:
             self.results_text.insert("end", f"Best Tour: {tsp_data}\n")
