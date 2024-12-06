@@ -1,7 +1,8 @@
 class TSPView:
-    def __init__(self, root, canvas):
+    def __init__(self, root, canvas, cities):
         self.root = root
         self.canvas = canvas
+        self.cities = cities
 
     def draw_cities_and_solution(self, cities, best_order):
         # Draw points on the canvas and connect them with lines
@@ -30,3 +31,37 @@ class TSPView:
                 outline=POINT_OUTLINE,
                 fill=POINT_COLOR,
             )
+
+    def draw_cities(self):
+        self.canvas.delete("all")
+
+        min_x, min_y = float("inf"), float("inf")
+        max_x, max_y = float("-inf"), float("-inf")
+
+        for city, (x, y) in self.cities.items():
+            self.canvas.create_oval(
+                x - 5, y - 5, x + 5, y + 5, fill="red", width=0, tags=city
+            )  # Smoother nodes
+            self.canvas.create_text(
+                x, y - 15, text=city, font=("Arial", 10, "bold"), tags=city
+            )
+            min_x = min(min_x, x)
+            min_y = min(min_y, y)
+            max_x = max(max_x, x)
+            max_y = max(max_y, y)
+
+        for city1 in self.cities:
+            for city2 in self.cities:
+                if city1 != city2:
+                    x1, y1 = self.cities[city1]
+                    x2, y2 = self.cities[city2]
+                    self.canvas.create_line(
+                        x1, y1, x2, y2, fill="gray", width=1, smooth=True
+                    )
+
+        for city in self.cities:
+            self.canvas.tag_raise(city)
+
+        self.canvas.config(
+            scrollregion=(min_x - 50, min_y - 50, max_x + 50, max_y + 50)
+        )
