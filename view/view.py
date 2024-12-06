@@ -1,8 +1,7 @@
 class TSPView:
-    def __init__(self, root, canvas, cities):
+    def __init__(self, root, canvas):
         self.root = root
         self.canvas = canvas
-        self.cities = cities
 
     def draw_cities_and_solution(self, cities, best_order):
         # Draw points on the canvas and connect them with lines
@@ -32,13 +31,13 @@ class TSPView:
                 fill=POINT_COLOR,
             )
 
-    def draw_cities(self):
+    def draw_cities(self, cities):
         self.canvas.delete("all")
 
         min_x, min_y = float("inf"), float("inf")
         max_x, max_y = float("-inf"), float("-inf")
 
-        for city in self.cities:
+        for city in cities:
             x = city.get_x
             y = city.get_y
             self.canvas.create_oval(
@@ -52,8 +51,8 @@ class TSPView:
             max_x = max(max_x, x)
             max_y = max(max_y, y)
 
-        for city1 in self.cities:
-            for city2 in self.cities:
+        for city1 in cities:
+            for city2 in cities:
                 if city1 != city2:
                     x1, y1 = city1.get_x, city1.get_y
                     x2, y2 = city2.git_x, city2.get_y
@@ -61,7 +60,7 @@ class TSPView:
                         x1, y1, x2, y2, fill="gray", width=1, smooth=True
                     )
 
-        for city in self.cities:
+        for city in cities:
             self.canvas.tag_raise(city)
 
         self.canvas.config(
