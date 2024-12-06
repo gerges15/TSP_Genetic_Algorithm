@@ -178,11 +178,11 @@ class TSPApp:
         """Starts the genetic algorithm."""
         try:
             tsp_data = {
-                "Number of Cities": int(self.inputs["Number of Cities"].get()),
-                "Population Size": int(self.inputs["Population Size"].get()),
-                "Elite Size": int(self.inputs["Elite Size"].get()),
-                "Mutation Rate": float(self.inputs["Mutation Rate"].get()),
-                "Generations": int(self.inputs["Generations"].get()),
+                "population": int(self.inputs["Number of Cities"].get()),
+                "pop_size": int(self.inputs["Population Size"].get()),
+                "elite_size": int(self.inputs["Elite Size"].get()),
+                "mutation_rate": float(self.inputs["Mutation Rate"].get()),
+                "generations": int(self.inputs["Generations"].get()),
             }
             print("Starting algorithm with:", tsp_data)
             # Example logger update:
