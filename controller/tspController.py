@@ -130,17 +130,13 @@ class TSPApp:
 
     def create_results_frame(self):
         """Creates a frame for showing results."""
-        self.frame_results = tk.Frame(self.root, bg="#f0f0f0", height=200)
-        self.frame_results.pack(fill="x", padx=20, pady=10, expand=False)
-        self.frame_results.pack_forget()  # Initially hidden
-
-        # Text Logger
+        self.frame_results = tk.Frame(self.root, bg="#f0f0f0")
         self.results_text = tk.Text(
             self.frame_results, font=self.font, height=10, bg="#ffffff"
         )
         self.results_text.pack(fill="both", expand=True, padx=10, pady=10)
 
-        # Hide Button
+        # Hide Button inside the Results Frame
         hide_button = tk.Button(
             self.frame_results,
             text="Hide Results",
@@ -156,7 +152,7 @@ class TSPApp:
         if self.results_frame_visible:
             self.frame_results.pack_forget()
         else:
-            self.frame_results.pack(fill="x", padx=20, pady=10)
+            self.frame_results.pack(side="bottom", fill="x", padx=20, pady=10)
         self.results_frame_visible = not self.results_frame_visible
 
     def validate_integer(self, var):
