@@ -38,7 +38,9 @@ class TSPView:
         min_x, min_y = float("inf"), float("inf")
         max_x, max_y = float("-inf"), float("-inf")
 
-        for city, (x, y) in self.cities.items():
+        for city in self.cities:
+            x = city.get_x
+            y = city.get_y
             self.canvas.create_oval(
                 x - 5, y - 5, x + 5, y + 5, fill="red", width=0, tags=city
             )  # Smoother nodes
@@ -53,8 +55,8 @@ class TSPView:
         for city1 in self.cities:
             for city2 in self.cities:
                 if city1 != city2:
-                    x1, y1 = self.cities[city1]
-                    x2, y2 = self.cities[city2]
+                    x1, y1 = city1.get_x, city1.get_y
+                    x2, y2 = city2.git_x, city2.get_y
                     self.canvas.create_line(
                         x1, y1, x2, y2, fill="gray", width=1, smooth=True
                     )
