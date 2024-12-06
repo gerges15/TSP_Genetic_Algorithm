@@ -10,11 +10,13 @@ class TSPApp:
         self.root.configure(bg="#f0f0f0")
 
         self.font = ("JetBrains Mono", 11)
+        self.results_frame_visible = False
 
         self.create_frames()
         self.create_visualization_area()
         self.create_input_fields()
         self.create_buttons()
+        self.create_results_frame()
 
     def create_frames(self):
         """Creates the three main frames: visualization, input, and buttons."""
@@ -119,12 +121,43 @@ class TSPApp:
         show_button = tk.Button(
             self.frame_buttons,
             text="Show Results",
-            command=self.continue_algorithm,
+            command=self.toggle_results_frame,
             font=self.font,
             bg="#4C1F7A",
             fg="#EEEEEE",
         )
         show_button.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
+
+    def create_results_frame(self):
+        """Creates a frame for showing results."""
+        self.frame_results = tk.Frame(self.root, bg="#f0f0f0", height=200)
+        self.frame_results.pack(fill="x", padx=20, pady=10, expand=False)
+        self.frame_results.pack_forget()  # Initially hidden
+
+        # Text Logger
+        self.results_text = tk.Text(
+            self.frame_results, font=self.font, height=10, bg="#ffffff"
+        )
+        self.results_text.pack(fill="both", expand=True, padx=10, pady=10)
+
+        # Hide Button
+        hide_button = tk.Button(
+            self.frame_results,
+            text="Hide Results",
+            command=self.toggle_results_frame,
+            font=self.font,
+            bg="#D32F2F",
+            fg="#ffffff",
+        )
+        hide_button.pack(pady=5)
+
+    def toggle_results_frame(self):
+        """Toggles the visibility of the results frame."""
+        if self.results_frame_visible:
+            self.frame_results.pack_forget()
+        else:
+            self.frame_results.pack(fill="x", padx=20, pady=10)
+        self.results_frame_visible = not self.results_frame_visible
 
     def validate_integer(self, var):
         """Ensures input is an integer."""
@@ -152,7 +185,13 @@ class TSPApp:
                 "Generations": int(self.inputs["Generations"].get()),
             }
             print("Starting algorithm with:", tsp_data)
-            # Visualization and logic will be implemented here
+            # Example logger update:
+            self.results_text.insert("end", f"Best Tour: {tsp_data}\n")
+            self.results_text.insert("end", f"Distance: Example Distance\n")
+            self.results_text.insert(
+                "end", f"Current Distance: Example Current Distance\n"
+            )
+            self.results_text.insert("end", f"Generation: Example Generation\n")
         except ValueError:
             messagebox.showerror(
                 "Input Error", "Please fill in all fields with valid values."
@@ -162,8 +201,3 @@ class TSPApp:
         """Clears all input fields."""
         for key in self.inputs:
             self.inputs[key].set("")
-
-    def continue_algorithm(self):
-        """Continues the genetic algorithm."""
-        print("Continuing Genetic Algorithm...")
-        # Your logic here
