@@ -54,3 +54,34 @@ class TSPView:
             self.canvas.create_line(
                 x1, y1, x2, y2, fill="#FF5733", width=2, smooth=True
             )
+
+
+def draw_path(self, tour, color="blue"):
+    """
+    Draws the path connecting the cities in the given tour.
+
+    Args:
+        tour (list): A list of city objects representing the order of the tour.
+        color (str): The color of the path to draw.
+    """
+    # Delete the previous path with the same color
+    self.canvas.delete(f"path_{color}")
+
+    # Draw lines between consecutive cities in the tour
+    for i in range(len(tour) - 1):
+        city1 = tour[i]
+        city2 = tour[i + 1]
+        x1, y1 = city1.get_x, city1.get_y
+        x2, y2 = city2.get_x, city2.get_y
+        self.canvas.create_line(
+            x1, y1, x2, y2, fill=color, tags=f"path_{color}", width=2, smooth=True
+        )
+
+    # Close the loop by connecting the last city back to the first city
+    first_city = tour[0]
+    last_city = tour[-1]
+    x1, y1 = last_city.get_x, last_city.get_y
+    x2, y2 = first_city.get_x, first_city.get_y
+    self.canvas.create_line(
+        x1, y1, x2, y2, fill=color, tags=f"path_{color}", width=2, smooth=True
+    )
