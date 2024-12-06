@@ -5,15 +5,16 @@ from model.selection import rank_routes
 
 def genetic_algorithm(tsp_data):
     pop = initial_population(tsp_data["pop_size"], tsp_data["population"])
-    print("Initial distance: " + str(1 / rank_routes(pop)[0][1]))
+    initial_dist = best_distance(pop)
+    print("Initial distance: " + str(initial_dist))
 
     pop = improved_generations(pop, tsp_data)
 
-    best_distance1 = best_distance(pop)
-    print("Final distance: " + str(best_distance1))
+    final_dist = best_distance(pop)
+    print("Final distance: " + str(final_dist))
     best_route_index = rank_routes(pop)[0][0]
     best_route = pop[best_route_index]
-    return best_route, best_distance1
+    return best_route, final_dist
 
 
 def improved_generations(pop, tsp_data):
