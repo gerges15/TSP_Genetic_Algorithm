@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 
+from model.ga import genetic_algorithm
 from model.city import generate_city_list
 from view.view import TSPView
 
@@ -192,6 +193,8 @@ class TSPApp:
                 "generations": int(self.inputs["Generations"].get()),
             }
 
+            genetic_algorithm(tsp_data)
+
             # Example cities and initial population
             cities = tsp_data["population"]
             self.view.draw_cities(cities)  # Draw the cities initially
@@ -202,8 +205,8 @@ class TSPApp:
 
             # Log the start
             print("Starting algorithm with:", tsp_data)
-            self.results_text.insert("end", f"Best Tour: {tsp_data}\n")
-            self.results_text.insert("end", f"Distance: Example Distance\n")
+            self.results_text.insert("end", f"Best Tour: {"C"}\n")
+            self.results_text.insert("end", f"Distance: {"22"}\n")
         except ValueError:
             messagebox.showerror(
                 "Input Error", "Please fill in all fields with valid values."
