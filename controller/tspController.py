@@ -1,4 +1,3 @@
-import threading
 import tkinter as tk
 from tkinter import ttk, messagebox
 
@@ -19,6 +18,7 @@ class TSPApp:
 
         self.font = ("JetBrains Mono", 11)
         self.results_frame_visible = False
+        self.is_running = False
 
         self.create_frames()
         self.create_visualization_area()
@@ -29,18 +29,17 @@ class TSPApp:
         # Create the view
         self.view = TSPView(self.root, self.canvas)
 
-        # Flags and placeholders
-        self.is_running = False  # To prevent multiple starts
-        self.best_routes = []
-
     def create_frames(self):
         """Creates the three main frames: visualization, input, and buttons."""
+        # Visualization Frame
         self.frame_visualization = tk.Frame(self.root, bg="#ffffff", height=300)
         self.frame_visualization.pack(fill="both", expand=True)
 
+        # Input Frame
         self.frame_inputs = tk.Frame(self.root, bg="#f0f0f0", height=150)
         self.frame_inputs.pack(fill="x", padx=20, pady=10)
 
+        # Button Frame
         self.frame_buttons = tk.Frame(self.root, bg="#f0f0f0", height=100)
         self.frame_buttons.pack(fill="x", padx=20, pady=10)
 
@@ -58,18 +57,30 @@ class TSPApp:
 
         self.inputs = {}
 
-        self.create_labeled_input("Number of Cities", 0, 0)
-        self.create_labeled_input("Population Size", 0, 2)
-        self.create_labeled_input("Elite Size", 1, 0)
-        self.create_labeled_input("Mutation Rate", 1, 2, is_float=True)
-        self.create_labeled_input("Generations", 2, 0)
+        tk.Label(
+            self.frame_inputs, text="Number of Cities", font=self.font, bg="#f0f0f0"
+        ).grid(row=0, column=0, sticky="w", padx=10, pady=5)
+        self.inputs["Number of Cities"] = self.create_input_field(0, 1)
 
-    def create_labeled_input(self, label, row, col, is_float=False):
-        """Helper to create labeled input fields."""
-        tk.Label(self.frame_inputs, text=label, font=self.font, bg="#f0f0f0").grid(
-            row=row, column=col, sticky="w", padx=10, pady=5
-        )
-        self.inputs[label] = self.create_input_field(row, col + 1, is_float)
+        tk.Label(
+            self.frame_inputs, text="Population Size", font=self.font, bg="#f0f0f0"
+        ).grid(row=0, column=2, sticky="w", padx=10, pady=5)
+        self.inputs["Population Size"] = self.create_input_field(0, 3)
+
+        tk.Label(
+            self.frame_inputs, text="Elite Size", font=self.font, bg="#f0f0f0"
+        ).grid(row=1, column=0, sticky="w", padx=10, pady=5)
+        self.inputs["Elite Size"] = self.create_input_field(1, 1)
+
+        tk.Label(
+            self.frame_inputs, text="Mutation Rate", font=self.font, bg="#f0f0f0"
+        ).grid(row=1, column=2, sticky="w", padx=10, pady=5)
+        self.inputs["Mutation Rate"] = self.create_input_field(1, 3, is_float=True)
+
+        tk.Label(
+            self.frame_inputs, text="Generations", font=self.font, bg="#f0f0f0"
+        ).grid(row=2, column=0, sticky="w", padx=10, pady=5)
+        self.inputs["Generations"] = self.create_input_field(2, 1)
 
     def create_input_field(self, row, col, is_float=False):
         var = tk.StringVar()
@@ -83,34 +94,39 @@ class TSPApp:
         return var
 
     def create_buttons(self):
-        self.frame_buttons.columnconfigure([0, 1, 2], weight=1)
+        self.frame_buttons.columnconfigure(0, weight=1)
+        self.frame_buttons.columnconfigure(1, weight=1)
+        self.frame_buttons.columnconfigure(2, weight=1)
 
-        tk.Button(
+        start_button = tk.Button(
             self.frame_buttons,
             text="Start Genetic Algorithm",
-            command=self.start_algorithm_thread,
+            command=self.start_algorithm,
             font=self.font,
             bg="#219B9D",
             fg="#EEEEEE",
-        ).grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+        )
+        start_button.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
-        tk.Button(
+        clear_button = tk.Button(
             self.frame_buttons,
             text="Clear",
             command=self.clear_inputs,
             font=self.font,
             bg="#EB5B00",
             fg="#EEEEEE",
-        ).grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+        )
+        clear_button.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
-        tk.Button(
+        show_button = tk.Button(
             self.frame_buttons,
             text="Show Results",
             command=self.toggle_results_frame,
             font=self.font,
             bg="#4C1F7A",
             fg="#EEEEEE",
-        ).grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
+        )
+        show_button.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
 
     def create_results_frame(self):
         self.frame_results = tk.Frame(self.root, bg="#f0f0f0")
@@ -119,14 +135,15 @@ class TSPApp:
         )
         self.results_text.pack(fill="both", expand=True, padx=10, pady=10)
 
-        tk.Button(
+        hide_button = tk.Button(
             self.frame_results,
             text="Hide Results",
             command=self.toggle_results_frame,
             font=self.font,
             bg="#D32F2F",
             fg="#ffffff",
-        ).pack(pady=5)
+        )
+        hide_button.pack(pady=5)
 
     def toggle_results_frame(self):
         if self.results_frame_visible:
@@ -148,14 +165,12 @@ class TSPApp:
         except ValueError:
             var.set("")
 
-    def start_algorithm_thread(self):
-        """Start the algorithm in a separate thread."""
+    def start_algorithm(self):
         if self.is_running:
-            messagebox.showwarning("Warning", "The algorithm is already running.")
+            messagebox.showerror("Error", "Algorithm is already running.")
             return
 
         try:
-            # Gather inputs
             cities_number = int(self.inputs["Number of Cities"].get())
             self.tsp_data = {
                 "population": generate_city_list(cities_number),
@@ -165,39 +180,69 @@ class TSPApp:
                 "generations": int(self.inputs["Generations"].get()),
             }
 
+            self.view.draw_cities(self.tsp_data["population"])
             self.is_running = True
-            threading.Thread(target=self.run_algorithm, daemon=True).start()
+
+            # Run the genetic algorithm logic in the background
+            self.root.after(100, self.run_algorithm)
         except ValueError:
             messagebox.showerror(
                 "Input Error", "Please fill in all fields with valid values."
             )
 
     def run_algorithm(self):
-        """Runs the genetic algorithm logic."""
         try:
             cities = self.tsp_data["population"]
             self.best_routes = []
 
-            self.view.draw_cities(cities)
             pop = initial_population(self.tsp_data["pop_size"], cities)
+            initial_dist = self.best_distance(pop)
 
-            for _ in range(self.tsp_data["generations"]):
+            self.root.after(
+                0,
+                lambda: self.results_text.insert(
+                    "end", f"Initial distance: {initial_dist:.2f}\n"
+                ),
+            )
+
+            for generation in range(self.tsp_data["generations"]):
                 pop = next_generation(
                     pop, self.tsp_data["elite_size"], self.tsp_data["mutation_rate"]
                 )
                 self.best_routes.append(self.best_route(pop))
 
+                best_dist = self.best_distance(pop)
+
+                self.root.after(
+                    0,
+                    lambda g=generation, d=best_dist: self.results_text.insert(
+                        "end", f"Generation {g + 1}: Best distance = {d:.2f}\n"
+                    ),
+                )
+
+            final_dist = self.best_distance(pop)
+            self.root.after(
+                0,
+                lambda: self.results_text.insert(
+                    "end", f"Final distance: {final_dist:.2f}\n"
+                ),
+            )
+
             self.root.after(0, self.animate_paths, 0)
         finally:
             self.is_running = False
 
+    def best_distance(self, pop):
+        return 1 / rank_routes(pop)[0][1]
+
     def animate_paths(self, index):
         if index < len(self.best_routes):
             self.view.draw_path(self.best_routes[index], color="blue")
-            self.root.after(200, self.animate_paths, index + 1)
+            self.root.after(500, self.animate_paths, index + 1)
 
     def best_route(self, pop):
-        return pop[rank_routes(pop)[0][0]]
+        best_route_index = rank_routes(pop)[0][0]
+        return pop[best_route_index]
 
     def clear_inputs(self):
         for key in self.inputs:
