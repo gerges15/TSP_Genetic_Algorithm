@@ -24,7 +24,7 @@ class TSPApp:
         self.create_input_fields()
         self.create_visualization_area()
         self.create_buttons()
-        self.create_results_frame()
+        self.create_results_text()
 
         # Create the view
         self.view = TSPView(self.root, self.canvas)
@@ -42,6 +42,9 @@ class TSPApp:
         # Button Frame
         self.frame_buttons = tk.Frame(self.root, bg="#f0f0f0", height=100)
         self.frame_buttons.pack(fill="x", padx=20, pady=10)
+        # Result Frame
+        self.frame_results = tk.Frame(self.root, bg="#f0f0f0", height=100)
+        self.frame_results.pack(side="right", fill="y", padx=20, pady=10)
 
     def create_visualization_area(self):
         """Creates the visualization area in the top frame."""
@@ -137,8 +140,7 @@ class TSPApp:
         )
         show_button.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
 
-    def create_results_frame(self):
-        self.frame_results = tk.Frame(self.root, bg="#f0f0f0")
+    def create_results_text(self):
         self.results_text = tk.Text(
             self.frame_results, font=self.font, height=10, bg="#ffffff"
         )
@@ -227,9 +229,13 @@ class TSPApp:
                 pop = next_generation(
                     pop, self.tsp_data["elite_size"], self.tsp_data["mutation_rate"]
                 )
-                self.best_routes.append(self.best_route(pop))
+                best_route = self.best_route(pop)
+                self.best_routes.append(best_route)
 
                 best_dist = self.best_distance(pop)
+                self.view.draw_path(
+                    best_route, color="orange"
+                )  # Draw current iteration path
 
                 self.root.after(
                     0,
@@ -237,6 +243,7 @@ class TSPApp:
                         "end", f"Generation {g + 1}: Best distance = {d:.2f}\n"
                     ),
                 )
+                self.root.update_idletasks()
 
             final_dist = self.best_distance(pop)
             self.root.after(
@@ -245,18 +252,11 @@ class TSPApp:
                     "end", f"Final distance: {final_dist:.2f}\n"
                 ),
             )
-
-            self.root.after(0, self.animate_paths, 0)
         finally:
             self.is_running = False
 
     def best_distance(self, pop):
         return 1 / rank_routes(pop)[0][1]
-
-    def animate_paths(self, index):
-        if index < len(self.best_routes):
-            self.view.draw_path(self.best_routes[index], color="blue")
-            self.root.after(500, self.animate_paths, index + 1)
 
     def best_route(self, pop):
         best_route_index = rank_routes(pop)[0][0]
