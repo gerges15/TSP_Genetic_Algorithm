@@ -132,8 +132,8 @@ class TSPApp:
 
         show_button = tk.Button(
             self.frame_buttons,
-            text="Show Results",
-            command=self.toggle_results_frame,
+            text="Show Plot",
+            command="",
             font=self.font,
             bg="#4C1F7A",
             fg="#EEEEEE",
