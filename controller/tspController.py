@@ -21,8 +21,8 @@ class TSPApp:
         self.is_running = False
 
         self.create_frames()
-        self.create_visualization_area()
         self.create_input_fields()
+        self.create_visualization_area()
         self.create_buttons()
         self.create_results_frame()
 
@@ -49,6 +49,15 @@ class TSPApp:
             self.frame_visualization, bg="#ffffff", highlightthickness=0
         )
         self.canvas.pack(fill="both", expand=True)
+        self.set_default_inputs()
+
+    def set_default_inputs(self):
+        """Sets default values for the input fields."""
+        self.inputs["Number of Cities"].set("20")
+        self.inputs["Population Size"].set("100")
+        self.inputs["Elite Size"].set("3")
+        self.inputs["Mutation Rate"].set("0.02")
+        self.inputs["Generations"].set("500")
 
     def create_input_fields(self):
         """Creates input fields for TSP data in the middle frame."""
@@ -166,6 +175,8 @@ class TSPApp:
             var.set("")
 
     def start_algorithm(self):
+        """Resets everything, sets defaults, and starts the algorithm."""
+        self.reset_app()  # Reset everything
         if self.is_running:
             messagebox.showerror("Error", "Algorithm is already running.")
             return
@@ -189,6 +200,13 @@ class TSPApp:
             messagebox.showerror(
                 "Input Error", "Please fill in all fields with valid values."
             )
+
+    def reset_app(self):
+        """Clears the canvas, results text, and resets inputs to default."""
+        self.canvas.delete("all")
+        self.results_text.delete("1.0", tk.END)
+        self.is_running = False
+        self.set_default_inputs()
 
     def run_algorithm(self):
         try:
