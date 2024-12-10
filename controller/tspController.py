@@ -1,11 +1,13 @@
+import threading
 import tkinter as tk
 from tkinter import ttk, messagebox
 
 from model.ga import genetic_algorithm
 from model.city import generate_city_list
 from view.view import TSPView
-
+from model.generations import next_generation
 from model.population import initial_population
+from model.selection import rank_routes
 
 
 class TSPApp:
@@ -27,17 +29,18 @@ class TSPApp:
         # Create the view
         self.view = TSPView(self.root, self.canvas)
 
+        # Flags and placeholders
+        self.is_running = False  # To prevent multiple starts
+        self.best_routes = []
+
     def create_frames(self):
         """Creates the three main frames: visualization, input, and buttons."""
-        # Visualization Frame
         self.frame_visualization = tk.Frame(self.root, bg="#ffffff", height=300)
         self.frame_visualization.pack(fill="both", expand=True)
 
-        # Input Frame
         self.frame_inputs = tk.Frame(self.root, bg="#f0f0f0", height=150)
         self.frame_inputs.pack(fill="x", padx=20, pady=10)
 
-        # Button Frame
         self.frame_buttons = tk.Frame(self.root, bg="#f0f0f0", height=100)
         self.frame_buttons.pack(fill="x", padx=20, pady=10)
 
@@ -50,45 +53,25 @@ class TSPApp:
 
     def create_input_fields(self):
         """Creates input fields for TSP data in the middle frame."""
-        # Configure grid for alignment
         for i in range(4):
             self.frame_inputs.columnconfigure(i, weight=1)
 
-        # Input fields dictionary for easy retrieval
         self.inputs = {}
 
-        # Number of Cities
-        tk.Label(
-            self.frame_inputs, text="Number of Cities", font=self.font, bg="#f0f0f0"
-        ).grid(row=0, column=0, sticky="w", padx=10, pady=5)
-        self.inputs["Number of Cities"] = self.create_input_field(0, 1)
+        self.create_labeled_input("Number of Cities", 0, 0)
+        self.create_labeled_input("Population Size", 0, 2)
+        self.create_labeled_input("Elite Size", 1, 0)
+        self.create_labeled_input("Mutation Rate", 1, 2, is_float=True)
+        self.create_labeled_input("Generations", 2, 0)
 
-        # Population Size
-        tk.Label(
-            self.frame_inputs, text="Population Size", font=self.font, bg="#f0f0f0"
-        ).grid(row=0, column=2, sticky="w", padx=10, pady=5)
-        self.inputs["Population Size"] = self.create_input_field(0, 3)
-
-        # Elite Size
-        tk.Label(
-            self.frame_inputs, text="Elite Size", font=self.font, bg="#f0f0f0"
-        ).grid(row=1, column=0, sticky="w", padx=10, pady=5)
-        self.inputs["Elite Size"] = self.create_input_field(1, 1)
-
-        # Mutation Rate
-        tk.Label(
-            self.frame_inputs, text="Mutation Rate", font=self.font, bg="#f0f0f0"
-        ).grid(row=1, column=2, sticky="w", padx=10, pady=5)
-        self.inputs["Mutation Rate"] = self.create_input_field(1, 3, is_float=True)
-
-        # Number of Generations
-        tk.Label(
-            self.frame_inputs, text="Generations", font=self.font, bg="#f0f0f0"
-        ).grid(row=2, column=0, sticky="w", padx=10, pady=5)
-        self.inputs["Generations"] = self.create_input_field(2, 1)
+    def create_labeled_input(self, label, row, col, is_float=False):
+        """Helper to create labeled input fields."""
+        tk.Label(self.frame_inputs, text=label, font=self.font, bg="#f0f0f0").grid(
+            row=row, column=col, sticky="w", padx=10, pady=5
+        )
+        self.inputs[label] = self.create_input_field(row, col + 1, is_float)
 
     def create_input_field(self, row, col, is_float=False):
-        """Creates an input field with validation."""
         var = tk.StringVar()
         entry = ttk.Entry(self.frame_inputs, textvariable=var, font=self.font)
         entry.grid(row=row, column=col, padx=10, pady=5)
@@ -100,64 +83,52 @@ class TSPApp:
         return var
 
     def create_buttons(self):
-        """Creates buttons to control the algorithm with space-evenly alignment."""
-        # Configure the frame to distribute columns evenly
-        self.frame_buttons.columnconfigure(0, weight=1)
-        self.frame_buttons.columnconfigure(1, weight=1)
-        self.frame_buttons.columnconfigure(2, weight=1)
+        self.frame_buttons.columnconfigure([0, 1, 2], weight=1)
 
-        # Add buttons
-        start_button = tk.Button(
+        tk.Button(
             self.frame_buttons,
             text="Start Genetic Algorithm",
-            command=self.start_algorithm,
+            command=self.start_algorithm_thread,
             font=self.font,
             bg="#219B9D",
             fg="#EEEEEE",
-        )
-        start_button.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+        ).grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
-        clear_button = tk.Button(
+        tk.Button(
             self.frame_buttons,
             text="Clear",
             command=self.clear_inputs,
             font=self.font,
             bg="#EB5B00",
             fg="#EEEEEE",
-        )
-        clear_button.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+        ).grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
 
-        show_button = tk.Button(
+        tk.Button(
             self.frame_buttons,
             text="Show Results",
             command=self.toggle_results_frame,
             font=self.font,
             bg="#4C1F7A",
             fg="#EEEEEE",
-        )
-        show_button.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
+        ).grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
 
     def create_results_frame(self):
-        """Creates a frame for showing results."""
         self.frame_results = tk.Frame(self.root, bg="#f0f0f0")
         self.results_text = tk.Text(
             self.frame_results, font=self.font, height=10, bg="#ffffff"
         )
         self.results_text.pack(fill="both", expand=True, padx=10, pady=10)
 
-        # Hide Button inside the Results Frame
-        hide_button = tk.Button(
+        tk.Button(
             self.frame_results,
             text="Hide Results",
             command=self.toggle_results_frame,
             font=self.font,
             bg="#D32F2F",
             fg="#ffffff",
-        )
-        hide_button.pack(pady=5)
+        ).pack(pady=5)
 
     def toggle_results_frame(self):
-        """Toggles the visibility of the results frame."""
         if self.results_frame_visible:
             self.frame_results.pack_forget()
         else:
@@ -165,13 +136,11 @@ class TSPApp:
         self.results_frame_visible = not self.results_frame_visible
 
     def validate_integer(self, var):
-        """Ensures input is an integer."""
         value = var.get()
         if not value.isdigit():
             var.set("")
 
     def validate_float(self, var):
-        """Ensures input is a float between 0 and 1."""
         value = var.get()
         try:
             if value and (float(value) < 0 or float(value) > 1):
@@ -179,13 +148,16 @@ class TSPApp:
         except ValueError:
             var.set("")
 
-    def start_algorithm(self):
-        """Starts the genetic algorithm with animated path drawing."""
+    def start_algorithm_thread(self):
+        """Start the algorithm in a separate thread."""
+        if self.is_running:
+            messagebox.showwarning("Warning", "The algorithm is already running.")
+            return
 
         try:
-            # Retrieve inputs
+            # Gather inputs
             cities_number = int(self.inputs["Number of Cities"].get())
-            tsp_data = {
+            self.tsp_data = {
                 "population": generate_city_list(cities_number),
                 "pop_size": int(self.inputs["Population Size"].get()),
                 "elite_size": int(self.inputs["Elite Size"].get()),
@@ -193,37 +165,40 @@ class TSPApp:
                 "generations": int(self.inputs["Generations"].get()),
             }
 
-            genetic_algorithm(tsp_data)
-
-            # Example cities and initial population
-            cities = tsp_data["population"]
-            self.view.draw_cities(cities)  # Draw the cities initially
-            best_tour = initial_population(20, cities)  # Example initial population
-
-            # Animation setup
-            self.animate_paths(best_tour, 0)
-
-            # Log the start
-            print("Starting algorithm with:", tsp_data)
-            self.results_text.insert("end", f"Best Tour: {"C"}\n")
-            self.results_text.insert("end", f"Distance: {"22"}\n")
+            self.is_running = True
+            threading.Thread(target=self.run_algorithm, daemon=True).start()
         except ValueError:
             messagebox.showerror(
                 "Input Error", "Please fill in all fields with valid values."
             )
 
-    def animate_paths(self, population, index):
-        """Animates the drawing of paths for the population."""
-        if index < len(population):
-            # Draw the current path
-            self.view.draw_path(population[index], color="blue")
+    def run_algorithm(self):
+        """Runs the genetic algorithm logic."""
+        try:
+            cities = self.tsp_data["population"]
+            self.best_routes = []
 
-            # Schedule the next path to be drawn
-            self.root.after(
-                500, self.animate_paths, population, index + 1
-            )  # Delay of 500ms
+            self.view.draw_cities(cities)
+            pop = initial_population(self.tsp_data["pop_size"], cities)
+
+            for _ in range(self.tsp_data["generations"]):
+                pop = next_generation(
+                    pop, self.tsp_data["elite_size"], self.tsp_data["mutation_rate"]
+                )
+                self.best_routes.append(self.best_route(pop))
+
+            self.root.after(0, self.animate_paths, 0)
+        finally:
+            self.is_running = False
+
+    def animate_paths(self, index):
+        if index < len(self.best_routes):
+            self.view.draw_path(self.best_routes[index], color="blue")
+            self.root.after(200, self.animate_paths, index + 1)
+
+    def best_route(self, pop):
+        return pop[rank_routes(pop)[0][0]]
 
     def clear_inputs(self):
-        """Clears all input fields."""
         for key in self.inputs:
             self.inputs[key].set("")
