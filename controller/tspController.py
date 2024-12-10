@@ -13,7 +13,7 @@ class TSPApp:
     def __init__(self, root):
         self.root = root
         self.root.title("TSP Genetic Algorithm Visualizer")
-        self.root.geometry("800x600")
+        self.root.geometry("800x800")
         self.root.configure(bg="#f0f0f0")
 
         self.font = ("JetBrains Mono", 11)
@@ -43,8 +43,8 @@ class TSPApp:
         self.frame_buttons = tk.Frame(self.root, bg="#f0f0f0", height=100)
         self.frame_buttons.pack(fill="x", padx=20, pady=10)
         # Result Frame
-        self.frame_results = tk.Frame(self.root, bg="#f0f0f0", height=100)
-        self.frame_results.pack(side="right", fill="y", padx=20, pady=10)
+        self.frame_results = tk.Frame(self.root, bg="#f0f0f0", height=200)
+        self.frame_results.pack(fill="x", padx=20, pady=10)
 
     def create_visualization_area(self):
         """Creates the visualization area in the top frame."""
