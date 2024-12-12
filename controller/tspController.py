@@ -230,6 +230,9 @@ class TSPApp:
                     "end", f"Initial distance: {initial_dist:.2f}\n", "red"
                 ),
             )
+            self.root.after(
+                0, lambda: self.results_text.see(tk.END)
+            )  # Scroll to bottom
 
             for generation in range(self.tsp_data["generations"]):
                 pop = next_generation(
@@ -254,6 +257,9 @@ class TSPApp:
                         "default",
                     ),
                 )
+                self.root.after(
+                    0, lambda: self.results_text.see(tk.END)
+                )  # Scroll to bottom
 
             final_dist = self.best_distance(pop)
             final_route = self.best_route(pop)
@@ -265,6 +271,9 @@ class TSPApp:
                     "end", f"Final distance: {final_dist:.2f}\n", "green"
                 ),
             )
+            self.root.after(
+                0, lambda: self.results_text.see(tk.END)
+            )  # Scroll to bottom
 
             # Draw the final path with green color
             self.root.after(
