@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 import matplotlib.pyplot as plt
+import threading
 
 from model.ga import genetic_algorithm
 from model.city import generate_city_list
@@ -46,6 +47,7 @@ class TSPApp:
         # Button Frame
         self.frame_buttons = tk.Frame(self.root, bg="#f0f0f0", height=100)
         self.frame_buttons.pack(fill="x", padx=20, pady=10)
+
         # Result Frame
         self.frame_results = tk.Frame(self.root, bg="#f0f0f0", height=200)
         self.frame_results.pack(fill="x", padx=20, pady=10)
@@ -171,8 +173,8 @@ class TSPApp:
             var.set("")
 
     def start_algorithm(self):
-        """Resets everything, sets defaults, and starts the algorithm."""
-        self.reset_app()  # Reset everything
+        """Starts the genetic algorithm in a separate thread."""
+        self.reset_app()
         if self.is_running:
             messagebox.showerror("Error", "Algorithm is already running.")
             return
@@ -190,8 +192,10 @@ class TSPApp:
             self.view.draw_cities(self.tsp_data["population"])
             self.is_running = True
 
-            # Run the genetic algorithm logic in the background
-            self.root.after(100, self.run_algorithm)
+            # Run the genetic algorithm logic in a separate thread
+            algorithm_thread = threading.Thread(target=self.run_algorithm)
+            algorithm_thread.daemon = True
+            algorithm_thread.start()
         except ValueError:
             messagebox.showerror(
                 "Input Error", "Please fill in all fields with valid values."
@@ -204,6 +208,7 @@ class TSPApp:
         self.is_running = False
 
     def run_algorithm(self):
+        """Runs the genetic algorithm logic."""
         try:
             cities = self.tsp_data["population"]
 
@@ -227,13 +232,16 @@ class TSPApp:
                 best_dist = self.best_distance(pop)
                 self.best_distances.append(best_dist)
 
-                self.view.draw_path(
-                    best_route, color="orange"
-                )  # Draw current iteration path
-
-                self.results_text.insert(tk.END, f"Generation {generation + 1}:\n")
-                self.results_text.insert(tk.END, f"  Best distance : {best_dist:.2f}\n")
-                self.root.update_idletasks()
+                self.root.after(
+                    0,
+                    lambda route=best_route: self.view.draw_path(route, color="orange"),
+                )
+                self.root.after(
+                    0,
+                    lambda gen=generation + 1, dist=best_dist: self.results_text.insert(
+                        tk.END, f"Generation {gen}:\n  Best distance : {dist:.2f}\n"
+                    ),
+                )
 
             final_dist = self.best_distance(pop)
             self.root.after(
@@ -256,7 +264,6 @@ class TSPApp:
         plt.plot(aList)
         plt.ylabel("Distance")
         plt.xlabel("Generation")
-
         plt.show()
 
     def clear_inputs(self):
