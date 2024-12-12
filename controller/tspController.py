@@ -208,7 +208,6 @@ class TSPApp:
         self.canvas.delete("all")
         self.results_text.delete("1.0", tk.END)
         self.is_running = False
-        self.set_default_inputs()
 
     def run_algorithm(self):
         try:
