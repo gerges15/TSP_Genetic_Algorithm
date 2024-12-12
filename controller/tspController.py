@@ -15,6 +15,7 @@ class TSPApp:
         self.root.title("TSP Genetic Algorithm Visualizer")
         self.root.geometry("800x800")
         self.root.configure(bg="#f0f0f0")
+        self.best_distances = []
 
         self.font = ("JetBrains Mono", 11)
         self.results_frame_visible = False
