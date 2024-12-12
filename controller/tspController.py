@@ -241,6 +241,7 @@ class TSPApp:
                 best_dist = self.best_distance(pop)
                 self.best_distances.append(best_dist)
 
+                # Draw the current path with orange color
                 self.root.after(
                     0,
                     lambda route=best_route: self.view.draw_path(route, color="orange"),
@@ -255,6 +256,7 @@ class TSPApp:
                 )
 
             final_dist = self.best_distance(pop)
+            final_route = self.best_route(pop)
 
             # Insert the final distance with green color
             self.root.after(
@@ -263,6 +265,12 @@ class TSPApp:
                     "end", f"Final distance: {final_dist:.2f}\n", "green"
                 ),
             )
+
+            # Draw the final path with green color
+            self.root.after(
+                0, lambda route=final_route: self.view.draw_path(route, color="#A7D477")
+            )
+
         finally:
             self.is_running = False
 
