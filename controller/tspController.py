@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+import matplotlib as plt
 
 from model.ga import genetic_algorithm
 from model.city import generate_city_list
@@ -263,6 +264,13 @@ class TSPApp:
     def best_route(self, pop):
         best_route_index = rank_routes(pop)[0][0]
         return pop[best_route_index]
+
+    def show_plot(self, aList):
+        plt.plot(aList)
+        plt.ylabel("Distance")
+        plt.xlabel("Generation")
+
+        plt.show()
 
     def clear_inputs(self):
         for key in self.inputs:
