@@ -147,10 +147,17 @@ class TSPApp:
         show_button.grid(row=0, column=2, padx=10, pady=10, sticky="nsew")
 
     def create_results_text(self):
+        """Creates the results text area with color configuration for tags."""
+
         self.results_text = tk.Text(
             self.frame_results, font=self.font, height=10, bg="#ffffff"
         )
         self.results_text.pack(fill="both", expand=True, padx=10, pady=10)
+
+        # Define text tags for colors
+        self.results_text.tag_configure("red", foreground="red")
+        self.results_text.tag_configure("green", foreground="green")
+        self.results_text.tag_configure("default", foreground="black")
 
     def toggle_results_frame(self):
         if self.results_frame_visible:
@@ -216,10 +223,11 @@ class TSPApp:
             pop = initial_population(self.tsp_data["pop_size"], cities)
             initial_dist = self.best_distance(pop)
 
+            # Insert the initial distance with red color
             self.root.after(
                 0,
                 lambda: self.results_text.insert(
-                    "end", f"Initial distance: {initial_dist:.2f}\n"
+                    "end", f"Initial distance: {initial_dist:.2f}\n", "red"
                 ),
             )
 
@@ -240,15 +248,19 @@ class TSPApp:
                 self.root.after(
                     0,
                     lambda gen=generation + 1, dist=best_dist: self.results_text.insert(
-                        tk.END, f"Generation {gen}:\n  Best distance : {dist:.2f}\n"
+                        tk.END,
+                        f"Generation {gen}:\n  Best distance : {dist:.2f}\n",
+                        "default",
                     ),
                 )
 
             final_dist = self.best_distance(pop)
+
+            # Insert the final distance with green color
             self.root.after(
                 0,
                 lambda: self.results_text.insert(
-                    "end", f"Final distance: {final_dist:.2f}\n"
+                    "end", f"Final distance: {final_dist:.2f}\n", "green"
                 ),
             )
         finally:
