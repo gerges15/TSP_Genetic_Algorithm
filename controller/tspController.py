@@ -233,6 +233,8 @@ class TSPApp:
                 self.best_routes.append(best_route)
 
                 best_dist = self.best_distance(pop)
+                self.best_distances.append(best_dist)
+
                 self.view.draw_path(
                     best_route, color="orange"
                 )  # Draw current iteration path
