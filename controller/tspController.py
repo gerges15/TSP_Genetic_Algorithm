@@ -148,16 +148,6 @@ class TSPApp:
         )
         self.results_text.pack(fill="both", expand=True, padx=10, pady=10)
 
-        hide_button = tk.Button(
-            self.frame_results,
-            text="Hide Results",
-            command=self.toggle_results_frame,
-            font=self.font,
-            bg="#D32F2F",
-            fg="#ffffff",
-        )
-        hide_button.pack(pady=5)
-
     def toggle_results_frame(self):
         if self.results_frame_visible:
             self.frame_results.pack_forget()
