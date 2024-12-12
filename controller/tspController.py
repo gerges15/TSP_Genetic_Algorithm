@@ -231,12 +231,8 @@ class TSPApp:
                     best_route, color="orange"
                 )  # Draw current iteration path
 
-                self.root.after(
-                    0,
-                    lambda g=generation, d=best_dist: self.results_text.insert(
-                        "end", f"Generation {g + 1}: Best distance = {d:.2f}\n"
-                    ),
-                )
+                self.results_text.insert(tk.END, f"Generation {generation + 1}:\n")
+                self.results_text.insert(tk.END, f"  Best distance : {best_dist:.2f}\n")
                 self.root.update_idletasks()
 
             final_dist = self.best_distance(pop)
