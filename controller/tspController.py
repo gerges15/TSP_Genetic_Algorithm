@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 from model.ga import genetic_algorithm
 from model.city import generate_city_list
@@ -135,7 +135,7 @@ class TSPApp:
         show_button = tk.Button(
             self.frame_buttons,
             text="Show Plot",
-            command="",
+            command=lambda: self.show_plot(self.best_distances),
             font=self.font,
             bg="#4C1F7A",
             fg="#EEEEEE",
