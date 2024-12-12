@@ -16,7 +16,9 @@ class TSPApp:
         self.root.title("TSP Genetic Algorithm Visualizer")
         self.root.geometry("800x800")
         self.root.configure(bg="#f0f0f0")
+
         self.best_distances = []
+        self.best_routes = []
 
         self.font = ("JetBrains Mono", 11)
         self.results_frame_visible = False
@@ -204,7 +206,6 @@ class TSPApp:
     def run_algorithm(self):
         try:
             cities = self.tsp_data["population"]
-            self.best_routes = []
 
             pop = initial_population(self.tsp_data["pop_size"], cities)
             initial_dist = self.best_distance(pop)
