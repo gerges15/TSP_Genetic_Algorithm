@@ -3,6 +3,8 @@ import numpy as np
 
 
 class City:
+    _counter = 0
+
     def __init__(self, x, y):
         self._x_point = x
         self._y_point = y
