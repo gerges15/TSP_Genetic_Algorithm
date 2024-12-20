@@ -3,7 +3,6 @@ from tkinter import ttk, messagebox
 import matplotlib.pyplot as plt
 import threading
 
-from model.ga import genetic_algorithm
 from model.city import generate_city_list
 from view.view import TSPView
 from model.generations import next_generation
@@ -253,7 +252,7 @@ class TSPApp:
                     0,
                     lambda gen=generation + 1, dist=best_dist: self.results_text.insert(
                         tk.END,
-                        f"Generation {gen}:\nBest Rout:{[city.get_name for city in best_route]}\n  Best distance : {dist:.2f}\n",
+                        f"Generation {gen}:\n  Best Rout:{[city.get_name for city in best_route]}\n  Best distance : {dist:.2f}\n",
                         "default",
                     ),
                 )
