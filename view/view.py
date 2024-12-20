@@ -36,7 +36,7 @@ class TSPView:
             )
             # Label the city
             self.canvas.create_text(
-                x, y - 15, text=f"C{i + 1}", font=("JetBrains Mono", 10, "bold")
+                x, y - 15, text=f"{city.get_name}", font=("JetBrains Mono", 10, "bold")
             )
 
         # Draw paths (optional)
