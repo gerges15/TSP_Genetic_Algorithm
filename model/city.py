@@ -35,11 +35,16 @@ class City:
     def get_name(self):
         return self._name
 
+    @classmethod
+    def reset_counter(cls):
+        cls._counter = 0
+
     def square(self, num):
         return num**2
 
 
 def generate_city_list(num):
+    City.reset_counter()
     return [City(x=random_position(), y=random_position()) for i in range(num)]
 
 
