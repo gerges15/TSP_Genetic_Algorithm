@@ -253,7 +253,7 @@ class TSPApp:
                     0,
                     lambda gen=generation + 1, dist=best_dist: self.results_text.insert(
                         tk.END,
-                        f"Generation {gen}:\n  Best distance : {dist:.2f}\n",
+                        f"Generation {gen}:\nBest Rout:{[city.get_name for city in best_route]}\n  Best distance : {dist:.2f}\n",
                         "default",
                     ),
                 )
