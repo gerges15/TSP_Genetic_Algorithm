@@ -8,6 +8,8 @@ class City:
     def __init__(self, x, y):
         self._x_point = x
         self._y_point = y
+        City._counter += 1
+        self._name = f"C{City._counter}"
 
     def distance(self, city):
         return np.sqrt(
@@ -28,6 +30,10 @@ class City:
     @property
     def get_y(self):
         return self._y_point
+
+    @property
+    def get_name(self):
+        return self._name
 
     def square(self, num):
         return num**2
