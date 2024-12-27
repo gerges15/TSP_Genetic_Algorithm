@@ -4,4 +4,8 @@ A Traveling Salesman Problem Visualizer powered by Genetic Algorithms. Watch as 
 
 ## Demo
 
+https://github.com/user-attachments/assets/a5a33aa8-6e08-42d4-9365-deb547846a06
+
+
+
 
